@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyectoprogramacionii;
-
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 /**
@@ -43,7 +42,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         
         DBObject datosObj1 = new BasicDBObject("1er nombre", primerNombre.getText())
             .append("2do Nombre: ", segundoNombre.getText()).append("1er apellido: ", primerApellido.getText())
-            .append("2do apellido: ",Integer.parseInt(segundoApellido.getText()))
+            .append("2do apellido: ",segundoApellido.getText())
             .append("# Identidad: ", identidad.getText()).append("Edad: ", Edad)
             .append("Grado Academcio: ", gradoAcademico).append("Puesto: ", Puesto);
         }
