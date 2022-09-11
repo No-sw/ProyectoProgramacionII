@@ -6,25 +6,48 @@ package com.mycompany.proyectoprogramacionii;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-
+import com.mongodb.MongoClientException;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import javax.swing.JOptionPane;
+import org.bson.Document;
 /**
  *
  * @author Toshiba
  */
 public class Registro extends javax.swing.JFrame {
-    String User;
-    String Password;
     
+    MongoCollection <Document> CrearCuenta;
     /**
      * Creates new form Registro
      */
+    
     public Registro() {
         initComponents();
     }
     
     public void insertarDatos(){
         DBObject datosObj = new BasicDBObject("nombre", txtUsuario.getText())
-            .append("Contraseña", txtPassword.getText());
+        .append("Contraseña", txtPassword.getPassword());
+    }
+    public boolean setUsuario(DBObject newUsuario){
+        try{
+         this.CrearCuenta.insertOne((Document) newUsuario);   
+            JOptionPane.showMessageDialog(null, "Registro creado con exito!","Importante", JOptionPane.INFORMATION_MESSAGE);
+            return true;
+        } catch(MongoClientException error){
+            JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+        public FindIterable<Document> getUsario(DBObject newUsuario){
+        FindIterable<Document> iterable = null;
+        try{
+            iterable = this.CrearCuenta.find();
+        } catch(MongoClientException error){
+            JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
+        }
+        return iterable;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -124,10 +147,14 @@ public class Registro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
+        DBObject Usuario = new BasicDBObject("nombre", txtUsuario.getText())
+            .append("Contraseña", txtPassword.getPassword());
         // TODO add your handling code here:
+        if(this.setUsuario( Usuario)){
             Menu menu = new Menu();
             menu.show();
             this.dispose(); 
+        }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed

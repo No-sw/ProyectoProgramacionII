@@ -6,13 +6,32 @@ package com.mycompany.proyectoprogramacionii;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import org.bson.Document;
-
 /**
  *
  * @author Toshiba
  */
 public class CrearCuenta extends javax.swing.JFrame {
+    private String User;
+    private String Password;
+
+    public String getUser() {
+        return User;
+    }
+
+    public void setUser(String User) {
+        this.User = User;
+    }
+
+    public String getPassword() {
+        return Password;
+    }
+
+    public void setPassword(String Password) {
+        this.Password = Password;
+    }
+    
+    
+    
     /**
      * Creates new form CrearCuenta
      */
@@ -22,11 +41,18 @@ public class CrearCuenta extends javax.swing.JFrame {
     
         public void insertarDatos(){
         
-        DBObject datosObj = new BasicDBObject("1er nombre", primerNombre.getText())
+        DBObject datosObj1 = new BasicDBObject("1er nombre", primerNombre.getText())
             .append("2do Nombre: ", segundoNombre.getText()).append("1er apellido: ", primerApellido.getText())
             .append("2do apellido: ",Integer.parseInt(segundoApellido.getText()))
             .append("# Identidad: ", identidad.getText()).append("Edad: ", Edad)
             .append("Grado Academcio: ", gradoAcademico).append("Puesto: ", Puesto);
+        }
+        
+        public void crearUsuario(){
+            User = primerNombre+". "+segundoApellido;
+            Password = primerNombre+""+segundoApellido+Edad;
+            DBObject datosObj2 = new BasicDBObject("Usuario", User)
+            .append("Contraseña", Password);
         }
     
     /**
@@ -98,8 +124,18 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel10.setText("Puesto");
 
         btnCrearUsuario.setText("Crear Usuario");
+        btnCrearUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearUsuarioActionPerformed(evt);
+            }
+        });
 
         btnCancelar.setText("Cancelar");
+        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelarActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Archivo");
         jMenuBar1.add(jMenu1);
@@ -220,6 +256,18 @@ public class CrearCuenta extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
+        // TODO add your handling code here:
+        this.insertarDatos();
+    }//GEN-LAST:event_btnCrearUsuarioActionPerformed
+
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+        // TODO add your handling code here:
+        Registro registro = new Registro();
+        registro.show();
+        this.dispose();
+    }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
      * @param args the command line arguments

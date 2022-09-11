@@ -9,13 +9,12 @@ package com.mycompany.proyectoprogramacionii;
  * @author Toshiba
  */
 public class Main {
-static ConexionDB connMongo;
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        connMongo =new ConexionDB();
-        connMongo.mostrarDB();
+        ConexionDB Mongo = new ConexionDB();
+        Mongo.mostrarDB();
     }
 }
