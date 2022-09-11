@@ -68,6 +68,7 @@ public class Registro extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sistema de Matricula");
 
         jLabel1.setText("Usuario:");
 
