@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
  * @author Toshiba
  */
 public class olvidarContraseña extends javax.swing.JFrame {
-
+    char[] nuevaContraseña;
     /**
      * Creates new form olvidarContraseña
      */
@@ -35,11 +35,11 @@ public class olvidarContraseña extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtnuevaContraseña = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
         btncambiarContraseña = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        jPasswordField1 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,10 +88,10 @@ public class olvidarContraseña extends javax.swing.JFrame {
                                     .addComponent(jLabel5))
                                 .addGap(120, 120, 120)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1)
+                                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                                     .addComponent(jTextField2)
-                                    .addComponent(jPasswordField1)
-                                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
+                                    .addComponent(txtnuevaContraseña)
+                                    .addComponent(jPasswordField1)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btncambiarContraseña)
                                 .addGap(55, 55, 55)
@@ -114,11 +114,11 @@ public class olvidarContraseña extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtnuevaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btncambiarContraseña)
@@ -135,6 +135,9 @@ public class olvidarContraseña extends javax.swing.JFrame {
     "Confirmacion de cambio de contraseña",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+    nuevaContraseña = txtnuevaContraseña.getPassword();
+    CrearCuenta Contraseña = new CrearCuenta();
+    Contraseña.crearUsuario(nuevaContraseña);
     }//GEN-LAST:event_btncambiarContraseñaActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
@@ -189,6 +192,6 @@ public class olvidarContraseña extends javax.swing.JFrame {
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JPasswordField txtnuevaContraseña;
     // End of variables declaration//GEN-END:variables
 }

@@ -53,11 +53,12 @@ public class CrearCuenta extends javax.swing.JFrame {
            }
         }
         
-        public void crearUsuario(){
+        public void crearUsuario(char [] password){
             User = primerNombre+". "+segundoApellido;
             Password = primerNombre+""+segundoApellido+Edad;
+            password = Password.toCharArray();
             DBObject datosObj2 = new BasicDBObject("Usuario", User)
-            .append("Contraseña", Password);
+            .append("Contraseña", password);
         }
         public void limpiarForm(){
             primerNombre.setText("");
@@ -281,7 +282,6 @@ public class CrearCuenta extends javax.swing.JFrame {
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
         this.insertarDatos();
-        this.crearUsuario();
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
