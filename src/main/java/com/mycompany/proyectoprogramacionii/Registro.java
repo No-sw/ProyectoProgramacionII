@@ -168,6 +168,8 @@ public class Registro extends javax.swing.JFrame {
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed
         // TODO add your handling code here:
+        olvidarContraseña contraseñaOlvidada = new olvidarContraseña();
+        contraseñaOlvidada.show();
     }//GEN-LAST:event_btnOlvidarContraseñaActionPerformed
 
     /**

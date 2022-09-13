@@ -5,6 +5,9 @@
 package com.mycompany.proyectoprogramacionii;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import org.bson.Document;
 /**
  *
  * @author Toshiba
@@ -45,6 +48,9 @@ public class CrearCuenta extends javax.swing.JFrame {
             .append("2do apellido: ",segundoApellido.getText())
             .append("# Identidad: ", identidad.getText()).append("Edad: ", Edad)
             .append("Grado Academcio: ", gradoAcademico).append("Puesto: ", Puesto);
+        if(Main.connMongo.setRegistro(datosObj1)){
+            this.limpiarForm();
+           }
         }
         
         public void crearUsuario(){
@@ -52,6 +58,17 @@ public class CrearCuenta extends javax.swing.JFrame {
             Password = primerNombre+""+segundoApellido+Edad;
             DBObject datosObj2 = new BasicDBObject("Usuario", User)
             .append("Contraseña", Password);
+        }
+        public void limpiarForm(){
+            primerNombre.setText("");
+            segundoNombre.setText("");
+            primerApellido.setText("");
+            segundoApellido.setText("");
+            identidad.setText("");
+            Edad.setText("");
+            gradoAcademico.setText("");
+            Puesto.setText("");
+            primerNombre.requestFocus();
         }
     
     /**
@@ -259,7 +276,12 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
         // TODO add your handling code here:
+    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
+    "Confirmacion de nuevo usuario",
+    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+    new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
         this.insertarDatos();
+        this.crearUsuario();
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
