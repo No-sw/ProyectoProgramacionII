@@ -266,7 +266,6 @@ public class CrearCuenta extends javax.swing.JFrame {
         // TODO add your handling code here:
         Registro registro = new Registro();
         registro.show();
-        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

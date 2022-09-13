@@ -157,7 +157,6 @@ public class Registro extends javax.swing.JFrame {
         if(this.setUsuario( Usuario)){
             Menu menu = new Menu();
             menu.show();
-            this.dispose(); 
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -165,7 +164,6 @@ public class Registro extends javax.swing.JFrame {
         // TODO add your handling code here:
             CrearCuenta Cuenta = new CrearCuenta();
             Cuenta.show();
-            this.dispose();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed

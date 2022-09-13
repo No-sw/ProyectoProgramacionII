@@ -326,7 +326,6 @@ public class registrarEstudiante extends javax.swing.JFrame {
         // TODO add your handling code here:
             Menu menu = new Menu();
             menu.show();
-            this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
