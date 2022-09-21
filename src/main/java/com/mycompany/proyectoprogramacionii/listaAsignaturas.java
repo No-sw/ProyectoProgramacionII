@@ -20,6 +20,7 @@ public class listaAsignaturas extends javax.swing.JFrame {
      */
     public listaAsignaturas() {
         initComponents();
+        this.Asignaturas = Main.connMongo.getDB().getCollection("ListaAsignaturas");
         this.modelAsignaturas = new DefaultTableModel();
         this.modelAsignaturas.addColumn("id");
         this.modelAsignaturas.addColumn("Asignaturas");
@@ -133,7 +134,8 @@ public class listaAsignaturas extends javax.swing.JFrame {
     private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
         Menu menu = new Menu();
-        menu.show();
+        menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     /**

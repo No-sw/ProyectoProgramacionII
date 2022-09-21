@@ -4,8 +4,6 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -17,17 +15,18 @@ import org.bson.types.ObjectId;
  * @author Toshiba
  */
 public class registrarEstudiante extends javax.swing.JFrame {
-    MongoCollection<Document> RegistroEstudiante;
+    MongoCollection<Document> Estudiante;
     /**
      * Creates new form registrarEstudiante
      */
     public registrarEstudiante() {
         initComponents();
+        this.Estudiante = Main.connMongo.getDB().getCollection("RegistroEstudiante");
     }
     
         public void insertarDatos(){
         
-        Document datosObj1 = new Document("_id", new ObjectId()).append("priemrerNombre", txtprimerNombre.getText())
+        Document datosObj = new Document("_id", new ObjectId()).append("priemrerNombre", txtprimerNombre.getText())
             .append("segundoNombre", txtsegundoNombre.getText())
             .append("primerApellido", txtprimerApellido.getText())
             .append("segundoApellido",txtsegundoApellido.getText())
@@ -37,7 +36,7 @@ public class registrarEstudiante extends javax.swing.JFrame {
             .append("Direccion", txtDireccion).append("Referencia", txtReferencia)
             .append("Ciudad", txtCiudad).append("Departamento", txtDepartamento)
             .append("numeroCuenta", txtnumCta.getText());
-       if(Main.connMongo.insertDocuments(this.RegistroEstudiante ,datosObj1)){
+       if(Main.connMongo.insertDocuments(this.Estudiante ,datosObj)){
             this.limpiarForm();
            }
         }
@@ -337,17 +336,20 @@ public class registrarEstudiante extends javax.swing.JFrame {
 
     private void btncrearEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearEstudianteActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear nuevo estudiante?",
+    int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear nuevo estudiante?",
     "Confrimacion de agregar estudiante",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-        insertarDatos();
+        if(res == JOptionPane.YES_OPTION){
+            insertarDatos();
+        }
     }//GEN-LAST:event_btncrearEstudianteActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
             Menu menu = new Menu();
             menu.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

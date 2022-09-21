@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
-
+                                                                      
 /**
  *
  * @author Toshiba
@@ -29,10 +29,10 @@ public class ConexionDB {
     
     MongoDatabase dataBaseSelect;
     
-    MongoCollection <Document> RegistroUniversidad;
+    MongoCollection <Document> Registro;
     public ConexionDB(){
         try{
-            this.conn = MongoClients.create("mongodb://"+servidor+":"+ puerto);
+          this.conn = MongoClients.create("mongodb://"+servidor+":"+ puerto);
             System.out.println("Conexion Exitosa");
         } catch (MongoClientException error){
             System.out.println("Error en conexion; "+error.toString());
@@ -50,7 +50,7 @@ public class ConexionDB {
     
     public boolean insertDocuments(MongoCollection<Document> collection, Document newRegistro){
         try{
-         this.RegistroUniversidad.insertOne(newRegistro);   
+         collection.insertOne(newRegistro);   
             JOptionPane.showMessageDialog(null, "Registro creado con exito!","Importante", JOptionPane.INFORMATION_MESSAGE);
             return true;
         } catch(MongoClientException error){

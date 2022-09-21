@@ -139,18 +139,21 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
             listaAsignaturas Asignatura = new listaAsignaturas();
             Asignatura.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnlistaAsignaturasActionPerformed
 
     private void btnmatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmatriculaActionPerformed
         // TODO add your handling code here:
             Matricula matricula = new Matricula();
             matricula.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnmatriculaActionPerformed
 
     private void btnregistrarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarEstudianteActionPerformed
         // TODO add your handling code here:
             registrarEstudiante Estudiante = new registrarEstudiante();
             Estudiante.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnregistrarEstudianteActionPerformed
 
     private void btncerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarSesionActionPerformed

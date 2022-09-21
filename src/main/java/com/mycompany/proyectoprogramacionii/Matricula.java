@@ -156,14 +156,27 @@ public class Matricula extends javax.swing.JFrame {
     "Confirmacion de Matricula",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+
         if(jCheckBox1.isSelected()){
-            this.modelAsignaturas.getValueAt(0, NORMAL);
+            this.modelAsignaturas.getValueAt(1, 1);
+            this.modelAsignaturas.getValueAt(1, 2);
+            this.modelAsignaturas.getValueAt(1, 3);
+            this.modelAsignaturas.getValueAt(1, 4);
+            this.modelAsignaturas.getValueAt(1, 5);
         }
         if(jCheckBox2.isSelected()){
-            this.modelAsignaturas.getValueAt(1, NORMAL);
+            this.modelAsignaturas.getValueAt(2, 1);
+            this.modelAsignaturas.getValueAt(2, 2);
+            this.modelAsignaturas.getValueAt(2, 3);
+            this.modelAsignaturas.getValueAt(2, 4);
+            this.modelAsignaturas.getValueAt(2, 5);
         }
         if(jCheckBox3.isSelected()){
-            this.modelAsignaturas.getValueAt(2, NORMAL);
+            this.modelAsignaturas.getValueAt(3, 1);
+            this.modelAsignaturas.getValueAt(3, 2);
+            this.modelAsignaturas.getValueAt(3, 3);
+            this.modelAsignaturas.getValueAt(3, 4);
+            this.modelAsignaturas.getValueAt(3, 5);
         }
         JOptionPane.showMessageDialog(rootPane, "\"Las Asignaturas han sido matriculadas exitosamente");
     }//GEN-LAST:event_btnMatricularActionPerformed
@@ -172,6 +185,7 @@ public class Matricula extends javax.swing.JFrame {
         // TODO add your handling code here:
         Menu menu = new Menu();
         menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

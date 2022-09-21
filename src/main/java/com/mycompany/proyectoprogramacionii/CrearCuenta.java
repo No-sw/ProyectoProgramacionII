@@ -13,24 +13,23 @@ import org.bson.types.ObjectId;
  * @author Toshiba
  */
 public class CrearCuenta extends javax.swing.JFrame {
-    MongoCollection<Document> Registro; 
-    
+    MongoCollection<Document> RegistroUniversidad; 
     /**
      * Creates new form CrearCuenta
      */
     public CrearCuenta() {
         initComponents();
+        this.RegistroUniversidad = Main.connMongo.getDB().getCollection("RegistroUniversidad");
     }
     
         public void insertarDatos(){
-            
-        Document datosObj1 = new Document("_id",new ObjectId()).append("primerNombre", primerNombre.getText())
+        Document datosObj = new Document("_id",new ObjectId()).append("primerNombre", primerNombre.getText())
             .append("segundodoNombre", segundoNombre.getText()).append("primerApellido", primerApellido.getText())
             .append("segundoApellido",segundoApellido.getText())
             .append("Identidad", identidad.getText()).append("Edad", Edad.getText())
             .append("gradoAcademcio", gradoAcademico.getText()).append("Puesto", Puesto.getText())
             .append("Usuario", txtUsuario.getText()).append("Contrasenia", txtpassword.getText());
-       if(Main.connMongo.insertDocuments(this.Registro ,datosObj1)){
+       if(Main.connMongo.insertDocuments(this.RegistroUniversidad ,datosObj)){
             this.limpiarForm();
            } 
         }
@@ -306,17 +305,21 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
+    int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
     "Confirmacion de nuevo usuario",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-        this.insertarDatos();
+    if(res == JOptionPane.YES_OPTION){
+    this.insertarDatos();
+    }
+        this.dispose();
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Registro registro = new Registro();
         registro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

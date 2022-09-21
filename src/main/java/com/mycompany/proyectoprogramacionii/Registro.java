@@ -4,18 +4,12 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
-import com.mongodb.MongoClientException;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoCursor;
 import javax.swing.JOptionPane;
-import org.bson.Document;
 /**
  *
  * @author Toshiba
  */
 public class Registro extends javax.swing.JFrame {
-    
     
     /**
      * Creates new form Registro
@@ -23,6 +17,12 @@ public class Registro extends javax.swing.JFrame {
     
     public Registro() {
         initComponents();
+    }
+    
+        public void limpiarForm(){
+        txtUsuario.setText("");
+        txtPassword.setText("");
+        txtUsuario.requestFocus();
     }
     
     /**
@@ -129,37 +129,31 @@ public class Registro extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String Usuario = txtUsuario.getText();
         char [] Password = txtPassword.getPassword();
-        String contraseña = new String(Password);
-        if(Usuario.isBlank()){
-            JOptionPane.showMessageDialog(null, "Debe ingresar un Usuario", "Error de Captura",
-            JOptionPane.ERROR_MESSAGE);
-        }
-        
-        if(contraseña.isBlank()){
-            JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
-            JOptionPane.ERROR_MESSAGE);
-        }
         CrearCuenta Cuenta = new CrearCuenta();
         if(Cuenta.confirmarUsuario(Usuario, Password)){
             Menu menu = new Menu();
             menu.setVisible(true);
+            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null, "Usuario o Cotraseña incorrecto", "Error de Captura",
             JOptionPane.ERROR_MESSAGE);
         }
+        this.limpiarForm();
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
             CrearCuenta Cuenta = new CrearCuenta();
             Cuenta.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed
         // TODO add your handling code here:
         olvidarContraseña contraseñaOlvidada = new olvidarContraseña();
         contraseñaOlvidada.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnOlvidarContraseñaActionPerformed
 
     /**
