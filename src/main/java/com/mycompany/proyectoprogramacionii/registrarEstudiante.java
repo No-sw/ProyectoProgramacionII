@@ -6,15 +6,18 @@ package com.mycompany.proyectoprogramacionii;
 
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author Toshiba
  */
 public class registrarEstudiante extends javax.swing.JFrame {
-
+    MongoCollection<Document> RegistroEstudiante;
     /**
      * Creates new form registrarEstudiante
      */
@@ -24,16 +27,35 @@ public class registrarEstudiante extends javax.swing.JFrame {
     
         public void insertarDatos(){
         
-        DBObject datosObj1 = new BasicDBObject("1er nombre", txtprimerNombre.getText())
-            .append("2do Nombre: ", txtsegundoNombre.getText())
-            .append("1er apellido: ", txtprimerApellido.getText())
-            .append("2do apellido: ",txtsegundoApellido.getText())
-            .append("# Identidad: ", txtidentidad.getText()).append("Edad: ", txtEdad)
-            .append("Grado Academcio: ", txtfechaNacimiento).append("Puesto: ", txtestadoCivil)
+        Document datosObj1 = new Document("_id", new ObjectId()).append("priemrerNombre", txtprimerNombre.getText())
+            .append("segundoNombre", txtsegundoNombre.getText())
+            .append("primerApellido", txtprimerApellido.getText())
+            .append("segundoApellido",txtsegundoApellido.getText())
+            .append("Identidad", txtidentidad.getText()).append("Edad", txtEdad)
+            .append("fechaNacimiento", txtfechaNacimiento).append("estadoCivil", txtestadoCivil)
             .append("Sexo", txtSexo).append("Telefono", txtTelefono)
             .append("Direccion", txtDireccion).append("Referencia", txtReferencia)
             .append("Ciudad", txtCiudad).append("Departamento", txtDepartamento)
-            .append("Numero de Cuenta", Integer.parseInt(txtnumCta.getText()));
+            .append("numeroCuenta", txtnumCta.getText());
+       if(Main.connMongo.insertDocuments(this.RegistroEstudiante ,datosObj1)){
+            this.limpiarForm();
+           }
+        }
+        public void limpiarForm(){
+            txtprimerNombre.setText("");
+            txtsegundoNombre.setText("");
+            txtprimerApellido.setText("");
+            txtsegundoApellido.setText("");
+            txtidentidad.setText("");
+            txtEdad.setText("");
+            txtfechaNacimiento.setText("");
+            txtestadoCivil.setText("");
+            txtDireccion.setText("");
+            txtReferencia.setText("");
+            txtCiudad.setText("");
+            txtDepartamento.setText("");
+            txtnumCta.setText("");
+            txtprimerNombre.requestFocus();
         }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -325,7 +347,7 @@ public class registrarEstudiante extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
             Menu menu = new Menu();
-            menu.show();
+            menu.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

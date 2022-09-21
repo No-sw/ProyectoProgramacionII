@@ -136,14 +136,16 @@ public class olvidarContraseña extends javax.swing.JFrame {
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
     nuevaContraseña = txtnuevaContraseña.getPassword();
-    CrearCuenta Contraseña = new CrearCuenta();
-    Contraseña.crearUsuario(nuevaContraseña);
+    CrearCuenta cuenta = new CrearCuenta();
+    cuenta.cambiarContraseña(nuevaContraseña);
     }//GEN-LAST:event_btncambiarContraseñaActionPerformed
 
+    
+    
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Registro registro = new Registro();
-        registro.show();
+        registro.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

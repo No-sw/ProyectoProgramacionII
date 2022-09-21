@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyectoprogramacionii;
+import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
@@ -13,6 +14,7 @@ import org.bson.Document;
  */
 public class listaAsignaturas extends javax.swing.JFrame {
     DefaultTableModel modelAsignaturas;
+    MongoCollection<Document> Asignaturas;
     /**
      * Creates new form listaAsignaturas
      */
@@ -34,7 +36,7 @@ public class listaAsignaturas extends javax.swing.JFrame {
     
     private void llenarTabla(){
         this.tblAsignaturas.setModel(this.modelAsignaturas);
-        MongoCursor<Document> cursor = Main.connMongo.getRegistros().iterator();
+        MongoCursor<Document> cursor = Main.connMongo.getDocuments(this.Asignaturas).iterator();
         while(cursor.hasNext()){
             Document Documento = cursor.next();
             this.agregarRegistrosTabla(Documento);

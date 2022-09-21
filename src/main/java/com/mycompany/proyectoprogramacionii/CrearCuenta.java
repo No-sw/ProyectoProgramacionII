@@ -3,36 +3,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyectoprogramacionii;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
+import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 /**
  *
  * @author Toshiba
  */
 public class CrearCuenta extends javax.swing.JFrame {
-    private String User;
-    private String Password;
-
-    public String getUser() {
-        return User;
-    }
-
-    public void setUser(String User) {
-        this.User = User;
-    }
-
-    public String getPassword() {
-        return Password;
-    }
-
-    public void setPassword(String Password) {
-        this.Password = Password;
-    }
-    
-    
+    MongoCollection<Document> Registro; 
     
     /**
      * Creates new form CrearCuenta
@@ -42,23 +23,16 @@ public class CrearCuenta extends javax.swing.JFrame {
     }
     
         public void insertarDatos(){
-        
-        DBObject datosObj1 = new BasicDBObject("1er nombre", primerNombre.getText())
-            .append("2do Nombre: ", segundoNombre.getText()).append("1er apellido: ", primerApellido.getText())
-            .append("2do apellido: ",segundoApellido.getText())
-            .append("# Identidad: ", identidad.getText()).append("Edad: ", Edad)
-            .append("Grado Academcio: ", gradoAcademico).append("Puesto: ", Puesto);
-        if(Main.connMongo.setRegistro(datosObj1)){
+            
+        Document datosObj1 = new Document("_id",new ObjectId()).append("primerNombre", primerNombre.getText())
+            .append("segundodoNombre", segundoNombre.getText()).append("primerApellido", primerApellido.getText())
+            .append("segundoApellido",segundoApellido.getText())
+            .append("Identidad", identidad.getText()).append("Edad", Edad.getText())
+            .append("gradoAcademcio", gradoAcademico.getText()).append("Puesto", Puesto.getText())
+            .append("Usuario", txtUsuario.getText()).append("Contrasenia", txtpassword.getText());
+       if(Main.connMongo.insertDocuments(this.Registro ,datosObj1)){
             this.limpiarForm();
-           }
-        }
-        
-        public void crearUsuario(char [] password){
-            User = primerNombre+". "+segundoApellido;
-            Password = primerNombre+""+segundoApellido+Edad;
-            password = Password.toCharArray();
-            DBObject datosObj2 = new BasicDBObject("Usuario", User)
-            .append("Contraseña", password);
+           } 
         }
         public void limpiarForm(){
             primerNombre.setText("");
@@ -69,7 +43,34 @@ public class CrearCuenta extends javax.swing.JFrame {
             Edad.setText("");
             gradoAcademico.setText("");
             Puesto.setText("");
+            txtUsuario.setText("");
+            txtpassword.setText("");
             primerNombre.requestFocus();
+        }
+        
+        public boolean confirmarUsuario(String usuario, char [] password){
+            String Usuario = txtUsuario.getText();
+            char [] Password = txtpassword.getPassword();
+            String contraseña = new String(Password);
+            String confirmacion = new String(password);
+            if(usuario.equals(Usuario)){
+                if(confirmacion.equals(contraseña)){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                return false;
+            }
+        }
+        
+        public void cambiarContraseña(char [] password){
+            String Password = new String(password);
+            char [] contraseña = txtpassword.getPassword();
+            String Contraseña = new String(contraseña);
+            Contraseña = Password;
         }
     
     /**
@@ -104,6 +105,10 @@ public class CrearCuenta extends javax.swing.JFrame {
         jLabel10 = new javax.swing.JLabel();
         btnCrearUsuario = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
+        txtUsuario = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        txtpassword = new javax.swing.JPasswordField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -155,6 +160,10 @@ public class CrearCuenta extends javax.swing.JFrame {
             }
         });
 
+        jLabel11.setText("Cree su Usuario");
+
+        jLabel12.setText("Cree su contraseña");
+
         jMenu1.setText("Archivo");
         jMenuBar1.add(jMenu1);
 
@@ -178,61 +187,73 @@ public class CrearCuenta extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(77, 77, 77))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel3))
-                                    .addComponent(primerNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                                    .addComponent(identidad, javax.swing.GroupLayout.Alignment.LEADING))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGap(9, 9, 9)
-                                        .addComponent(jLabel4))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(segundoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(Edad))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(10, 10, 10)
-                                .addComponent(jLabel7)
-                                .addGap(44, 44, 44)
-                                .addComponent(jLabel8)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(33, 33, 33)
-                                .addComponent(jLabel10))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(10, 10, 10)
-                                        .addComponent(jLabel5)
-                                        .addGap(33, 33, 33))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(primerApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                                            .addComponent(gradoAcademico, javax.swing.GroupLayout.Alignment.LEADING))
-                                        .addGap(9, 9, 9)))
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                .addGap(10, 10, 10)
+                                                .addComponent(jLabel3))
+                                            .addComponent(primerNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                                            .addComponent(identidad, javax.swing.GroupLayout.Alignment.LEADING))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGap(9, 9, 9)
+                                                .addComponent(jLabel4))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(segundoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(Edad))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(jLabel7)
+                                                .addGap(44, 44, 44)
+                                                .addComponent(jLabel8))))
+                                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(segundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addComponent(jLabel2))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(layout.createSequentialGroup()
+                                                        .addGap(10, 10, 10)
+                                                        .addComponent(jLabel5)
+                                                        .addGap(33, 33, 33))
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                            .addComponent(primerApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                                            .addComponent(gradoAcademico, javax.swing.GroupLayout.Alignment.LEADING))
+                                                        .addGap(9, 9, 9)))
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel6)
+                                                    .addComponent(segundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(txtpassword, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                                    .addComponent(jLabel9)
+                                                    .addGap(33, 33, 33)
+                                                    .addComponent(jLabel10)))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(37, 37, 37)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jLabel12)
+                                            .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addComponent(jLabel2)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(jLabel11)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(btnCrearUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(86, 86, 86))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,11 +286,19 @@ public class CrearCuenta extends javax.swing.JFrame {
                     .addComponent(jLabel8)
                     .addComponent(jLabel9)
                     .addComponent(jLabel10))
-                .addGap(18, 18, 18)
+                .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancelar)
-                    .addComponent(btnCrearUsuario))
-                .addContainerGap(37, Short.MAX_VALUE))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(jLabel12))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCrearUsuario)
+                    .addComponent(btnCancelar))
+                .addContainerGap())
         );
 
         pack();
@@ -287,7 +316,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Registro registro = new Registro();
-        registro.show();
+        registro.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
@@ -334,6 +363,8 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JTextField identidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -354,5 +385,7 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JTextField primerNombre;
     private javax.swing.JTextField segundoApellido;
     private javax.swing.JTextField segundoNombre;
+    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JPasswordField txtpassword;
     // End of variables declaration//GEN-END:variables
 }

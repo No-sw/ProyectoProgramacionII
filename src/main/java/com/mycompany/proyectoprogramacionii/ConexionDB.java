@@ -4,7 +4,6 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
-import com.mongodb.DBObject;
 import com.mongodb.MongoClientException;    
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
@@ -12,11 +11,12 @@ import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import static com.mongodb.client.model.Filters.eq;
-import static com.mongodb.client.model.Updates.set;
+import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 import javax.swing.JOptionPane;
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -29,7 +29,7 @@ public class ConexionDB {
     
     MongoDatabase dataBaseSelect;
     
-    MongoCollection <Document> Registro;
+    MongoCollection <Document> RegistroUniversidad;
     public ConexionDB(){
         try{
             this.conn = MongoClients.create("mongodb://"+servidor+":"+ puerto);
@@ -38,13 +38,19 @@ public class ConexionDB {
             System.out.println("Error en conexion; "+error.toString());
         }
     }
-    public void mostrarDB(){
+    
+    public void setDB(){
         dataBaseSelect = conn.getDatabase("Mongodb");
         System.out.println("DB Seleccionada"+dataBaseSelect.toString());
     }
-    public boolean setRegistro(DBObject newRegistro){
+    
+    public MongoDatabase getDB(){
+        return dataBaseSelect;
+    }
+    
+    public boolean insertDocuments(MongoCollection<Document> collection, Document newRegistro){
         try{
-         this.Registro.insertOne((Document) newRegistro);   
+         this.RegistroUniversidad.insertOne(newRegistro);   
             JOptionPane.showMessageDialog(null, "Registro creado con exito!","Importante", JOptionPane.INFORMATION_MESSAGE);
             return true;
         } catch(MongoClientException error){
@@ -52,42 +58,30 @@ public class ConexionDB {
             return false;
         }
     }
-    public FindIterable<Document> getRegistros(){
+    public FindIterable<Document> getDocuments(MongoCollection<Document> collection){
         FindIterable<Document> iterable = null;
         try{
-            iterable = this.Registro.find();
+            iterable = collection.find();
         } catch(MongoClientException error){
             JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
         }
         return iterable;
     }
-    public FindIterable<Document> getRegistrosInsertado(){
-    FindIterable<Document> iterable = null;
-    try{
-        iterable = this.Registro.find();
-    } catch(MongoClientException error){
-        JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
-    }
-      return iterable;
-    }
-    public boolean deleteRegistros(String id){
+    public boolean deleteRegistros(MongoCollection<Document> collection ,String id){
         try{
-        Bson filter = eq("nombre", id);
-        Document doc = this.Registro.findOneAndDelete(filter);
-        return true;
+        Bson filter = eq(id, new ObjectId(id));
+        DeleteResult result = collection.deleteOne(filter);
+        return result.getDeletedCount()>0 ? true : false;
         } catch(MongoClientException error){
             JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
-    public boolean actualizarRegistros(Document data, String id){
+    public boolean actualizarRegistros(MongoCollection<Document> collection ,Document data, String id){
         try{
-            Bson filter = eq("_id", id);
-            Bson updateOperation = set("nombre",data.getString("nombre"));
-            UpdateResult updateResult = this.Registro.updateOne(filter, updateOperation);
-            System.out.println("=> Updating the doc with {\"student_id\":10000}. Adding comment.");
-            System.out.println(updateResult);
-            return true;            
+            Bson filter = eq(id, new ObjectId(id));
+            UpdateResult updateResult = collection.replaceOne(filter, data);
+            return updateResult.getModifiedCount()>0 ? true : false;            
         } catch(MongoClientException error){
             JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
             return false;

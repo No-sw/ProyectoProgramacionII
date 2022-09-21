@@ -138,25 +138,25 @@ public class Menu extends javax.swing.JFrame {
     private void btnlistaAsignaturasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnlistaAsignaturasActionPerformed
         // TODO add your handling code here:
             listaAsignaturas Asignatura = new listaAsignaturas();
-            Asignatura.show();
+            Asignatura.setVisible(true);
     }//GEN-LAST:event_btnlistaAsignaturasActionPerformed
 
     private void btnmatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmatriculaActionPerformed
         // TODO add your handling code here:
             Matricula matricula = new Matricula();
-            matricula.show();
+            matricula.setVisible(true);
     }//GEN-LAST:event_btnmatriculaActionPerformed
 
     private void btnregistrarEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnregistrarEstudianteActionPerformed
         // TODO add your handling code here:
-            CrearCuenta Cuenta = new CrearCuenta();
-            Cuenta.show();
+            registrarEstudiante Estudiante = new registrarEstudiante();
+            Estudiante.setVisible(true);
     }//GEN-LAST:event_btnregistrarEstudianteActionPerformed
 
     private void btncerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncerrarSesionActionPerformed
         // TODO add your handling code here:
             Registro registro = new Registro();
-            registro.show();
+            registro.setVisible(true);
     }//GEN-LAST:event_btncerrarSesionActionPerformed
 
     /**

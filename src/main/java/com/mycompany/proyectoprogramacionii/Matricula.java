@@ -171,7 +171,7 @@ public class Matricula extends javax.swing.JFrame {
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Menu menu = new Menu();
-        menu.show();
+        menu.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

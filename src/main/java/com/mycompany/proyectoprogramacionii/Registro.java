@@ -4,11 +4,10 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBObject;
 import com.mongodb.MongoClientException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import javax.swing.JOptionPane;
 import org.bson.Document;
 /**
@@ -17,7 +16,7 @@ import org.bson.Document;
  */
 public class Registro extends javax.swing.JFrame {
     
-    MongoCollection <Document> CrearCuenta;
+    
     /**
      * Creates new form Registro
      */
@@ -26,29 +25,6 @@ public class Registro extends javax.swing.JFrame {
         initComponents();
     }
     
-    public void insertarDatos(){
-        DBObject datosObj = new BasicDBObject("nombre", txtUsuario.getText())
-        .append("Contraseña", txtPassword.getPassword());
-    }
-    public boolean setUsuario(DBObject newUsuario){
-        try{
-         this.CrearCuenta.insertOne((Document) newUsuario);   
-            JOptionPane.showMessageDialog(null, "Registro creado con exito!","Importante", JOptionPane.INFORMATION_MESSAGE);
-            return true;
-        } catch(MongoClientException error){
-            JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante", JOptionPane.ERROR_MESSAGE);
-            return false;
-        }
-    }
-        public FindIterable<Document> getUsario(DBObject newUsuario){
-        FindIterable<Document> iterable = null;
-        try{
-            iterable = this.CrearCuenta.find();
-        } catch(MongoClientException error){
-            JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
-        }
-        return iterable;
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -151,25 +127,39 @@ public class Registro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        DBObject Usuario = new BasicDBObject("nombre", txtUsuario.getText())
-            .append("Contraseña", txtPassword.getPassword());
-        // TODO add your handling code here:
-        if(this.setUsuario( Usuario)){
+        String Usuario = txtUsuario.getText();
+        char [] Password = txtPassword.getPassword();
+        String contraseña = new String(Password);
+        if(Usuario.isBlank()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un Usuario", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
+        if(contraseña.isBlank()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        CrearCuenta Cuenta = new CrearCuenta();
+        if(Cuenta.confirmarUsuario(Usuario, Password)){
             Menu menu = new Menu();
-            menu.show();
+            menu.setVisible(true);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Usuario o Cotraseña incorrecto", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
             CrearCuenta Cuenta = new CrearCuenta();
-            Cuenta.show();
+            Cuenta.setVisible(true);
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed
         // TODO add your handling code here:
         olvidarContraseña contraseñaOlvidada = new olvidarContraseña();
-        contraseñaOlvidada.show();
+        contraseñaOlvidada.setVisible(true);
     }//GEN-LAST:event_btnOlvidarContraseñaActionPerformed
 
     /**
