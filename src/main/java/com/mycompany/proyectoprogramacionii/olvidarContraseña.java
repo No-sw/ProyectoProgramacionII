@@ -4,21 +4,53 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.bson.Document;
 
 /**
  *
  * @author Toshiba
  */
 public class olvidarContraseña extends javax.swing.JFrame {
+
     String nuevaContraseña;
+
     /**
      * Creates new form olvidarContraseña
      */
     public olvidarContraseña() {
         initComponents();
     }
+
+    MongoCollection<Document> Usuarios;
+
+    private boolean NewPass(String usuario, String password) {
+
+        this.Usuarios = Main.connMongo.getDB().getCollection("registroUsuarios");
+        Document result = this.Usuarios.find(new Document("usuario", usuario)).first();
+
+        if (usuario.equals(result.get("usuario")) && password.equals(result.get("contrasena"))) {
+            return true;
+        }
+
+        return false;
+    }
+
+/*
+public boolean actualizarDocuments(MongoCollection<Document> collection, Document data, String id) {
+        try {
+            Bson filter = eq("_id", new ObjectId(id));
+            UpdateResult updateResult = collection.replaceOne(filter, data);
+            return updateResult.getModifiedCount() > 0 ? true : false;
+        } catch (MongoException error) {
+            JOptionPane.showMessageDialog(null, "Registro no pudo ser actualizado", "Importante!", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+*/
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -31,13 +63,13 @@ public class olvidarContraseña extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtUsuario = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtnuevaContraseña = new javax.swing.JPasswordField();
+        txtNewPass = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         btncambiarContraseña = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        txtConPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -78,8 +110,8 @@ public class olvidarContraseña extends javax.swing.JFrame {
                                 .addComponent(jLabel5))
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jPasswordField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(txtnuevaContraseña, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(txtConPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtNewPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createSequentialGroup()
                             .addGap(96, 96, 96)
                             .addComponent(jLabel1))
@@ -87,7 +119,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
                             .addGap(23, 23, 23)
                             .addComponent(jLabel2)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(btncambiarContraseña)
@@ -103,15 +135,15 @@ public class olvidarContraseña extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtnuevaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNewPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtConPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btncambiarContraseña)
@@ -124,17 +156,32 @@ public class olvidarContraseña extends javax.swing.JFrame {
 
     private void btncambiarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncambiarContraseñaActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere cambiar la contraseña?",
-    "Confirmacion de cambio de contraseña",
-    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-    new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-    nuevaContraseña = txtnuevaContraseña.getText();
-    CrearCuenta cuenta = new CrearCuenta();
-    cuenta.cambiarContraseña(nuevaContraseña);
+        String Usuario = txtUsuario.getText();
+        String newPassword = txtNewPass.getText();
+        String conNewPassword = txtConPass.getText();
+
+        if (Usuario.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un Usuario", "Error de Captura",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        if (newPassword.isBlank()) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+
+        JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere cambiar la contraseña?",
+                "Confirmacion de cambio de contraseña",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+        nuevaContraseña = txtNewPass.getText();
+        CrearCuenta cuenta = new CrearCuenta();
+        cuenta.cambiarContraseña(nuevaContraseña);
+
+
     }//GEN-LAST:event_btncambiarContraseñaActionPerformed
 
-    
-    
+
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Registro registro = new Registro();
@@ -183,8 +230,8 @@ public class olvidarContraseña extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JPasswordField txtnuevaContraseña;
+    private javax.swing.JPasswordField txtConPass;
+    private javax.swing.JPasswordField txtNewPass;
+    private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
