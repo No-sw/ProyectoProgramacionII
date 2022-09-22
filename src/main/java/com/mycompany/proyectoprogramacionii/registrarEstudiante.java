@@ -4,6 +4,8 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -15,47 +17,60 @@ import org.bson.types.ObjectId;
  * @author Toshiba
  */
 public class registrarEstudiante extends javax.swing.JFrame {
-    MongoCollection<Document> Estudiante;
+
+    MongoCollection<Document> Estudiantes;
+
     /**
      * Creates new form registrarEstudiante
      */
     public registrarEstudiante() {
         initComponents();
-        this.Estudiante = Main.connMongo.getDB().getCollection("RegistroEstudiante");
+        this.Estudiantes = Main.connMongo.getDB().getCollection("registroEstudiante");
     }
-    
-        public void insertarDatos(){
-        
-        Document datosObj = new Document("_id", new ObjectId()).append("priemrerNombre", txtprimerNombre.getText())
-            .append("segundoNombre", txtsegundoNombre.getText())
-            .append("primerApellido", txtprimerApellido.getText())
-            .append("segundoApellido",txtsegundoApellido.getText())
-            .append("Identidad", txtidentidad.getText()).append("Edad", txtEdad)
-            .append("fechaNacimiento", txtfechaNacimiento).append("estadoCivil", txtestadoCivil)
-            .append("Sexo", txtSexo).append("Telefono", txtTelefono)
-            .append("Direccion", txtDireccion).append("Referencia", txtReferencia)
-            .append("Ciudad", txtCiudad).append("Departamento", txtDepartamento)
-            .append("numeroCuenta", txtnumCta.getText());
-       if(Main.connMongo.insertDocuments(this.Estudiante ,datosObj)){
+
+    public void insertarDatos() {
+
+        Document datosObj = new Document("_id", new ObjectId())
+                .append("primerNombre", txtPrimerNombre.getText())
+                .append("segundodoNombre", txtSegundoNombre.getText())
+                .append("primerApellido", txtPrimerApellido.getText())
+                .append("segundoApellido", txtSegundoApellido.getText())
+                .append("identidad", txtIdentidad.getText())
+                .append("edad", txtEdad.getText())
+                .append("fechaNacimiento", txtFechaNacimiento.getText())
+                .append("estadoCivil", txtEstadoCivil.getText())
+                .append("sexo", txtSexo.getText())
+                .append("telefono", txtTelefono.getText())
+                .append("direccion", txtDireccion.getText())
+                .append("referencia", txtReferencia.getText())
+                .append("ciudad", txtCiudad.getText())
+                .append("departamento", txtDepartamento.getText())
+                .append("numeroCuenta", txtNumCuenta.getText());
+        if (Main.connMongo.insertDocument(this.Estudiantes, datosObj)) {
             this.limpiarForm();
-           }
         }
-        public void limpiarForm(){
-            txtprimerNombre.setText("");
-            txtsegundoNombre.setText("");
-            txtprimerApellido.setText("");
-            txtsegundoApellido.setText("");
-            txtidentidad.setText("");
-            txtEdad.setText("");
-            txtfechaNacimiento.setText("");
-            txtestadoCivil.setText("");
-            txtDireccion.setText("");
-            txtReferencia.setText("");
-            txtCiudad.setText("");
-            txtDepartamento.setText("");
-            txtnumCta.setText("");
-            txtprimerNombre.requestFocus();
-        }
+    }
+
+    public void limpiarForm() {
+        txtPrimerNombre.setText("");
+        txtSegundoNombre.setText("");
+        txtPrimerApellido.setText("");
+        txtSegundoApellido.setText("");
+        txtIdentidad.setText("");
+        txtEdad.setText("");
+        txtFechaNacimiento.setText("");
+        txtEstadoCivil.setText("");
+        txtSexo.setText("");
+        txtTelefono.setText("");
+        txtDireccion.setText("");
+        txtReferencia.setText("");
+        txtCiudad.setText("");
+        txtDepartamento.setText("");
+        txtNumCuenta.setText("");
+
+        //txtPrimerNombre.requestFocus();
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,19 +81,19 @@ public class registrarEstudiante extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        txtprimerNombre = new javax.swing.JTextField();
+        txtPrimerNombre = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtsegundoNombre = new javax.swing.JTextField();
-        txtprimerApellido = new javax.swing.JTextField();
-        txtsegundoApellido = new javax.swing.JTextField();
+        txtSegundoNombre = new javax.swing.JTextField();
+        txtPrimerApellido = new javax.swing.JTextField();
+        txtSegundoApellido = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        txtidentidad = new javax.swing.JTextField();
+        txtIdentidad = new javax.swing.JTextField();
         txtEdad = new javax.swing.JTextField();
-        txtfechaNacimiento = new javax.swing.JTextField();
-        txtestadoCivil = new javax.swing.JTextField();
+        txtFechaNacimiento = new javax.swing.JTextField();
+        txtEstadoCivil = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -96,7 +111,7 @@ public class registrarEstudiante extends javax.swing.JFrame {
         txtDepartamento = new javax.swing.JTextField();
         jLabel16 = new javax.swing.JLabel();
         jLabel17 = new javax.swing.JLabel();
-        txtnumCta = new javax.swing.JTextField();
+        txtNumCuenta = new javax.swing.JTextField();
         jLabel18 = new javax.swing.JLabel();
         btncrearEstudiante = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -179,13 +194,13 @@ public class registrarEstudiante extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(txtCiudad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
                     .addComponent(txtSexo, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtidentidad, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtprimerNombre, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(txtIdentidad, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtPrimerNombre, javax.swing.GroupLayout.Alignment.LEADING))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtsegundoNombre)
+                            .addComponent(txtSegundoNombre)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel4))
@@ -195,16 +210,16 @@ public class registrarEstudiante extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel5))
-                            .addComponent(txtfechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-                            .addComponent(txtprimerApellido))
+                            .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
+                            .addComponent(txtPrimerApellido))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jLabel6)
                                 .addContainerGap())
-                            .addComponent(txtestadoCivil)
-                            .addComponent(txtsegundoApellido)))
+                            .addComponent(txtEstadoCivil)
+                            .addComponent(txtSegundoApellido)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(txtDepartamento, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)
@@ -213,7 +228,7 @@ public class registrarEstudiante extends javax.swing.JFrame {
                         .addComponent(txtDireccion, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(txtReferencia))))
-            .addComponent(txtnumCta, javax.swing.GroupLayout.Alignment.TRAILING)
+            .addComponent(txtNumCuenta, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -277,10 +292,10 @@ public class registrarEstudiante extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtprimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtsegundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtprimerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtsegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSegundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrimerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -289,10 +304,10 @@ public class registrarEstudiante extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtidentidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtIdentidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtfechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtestadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEstadoCivil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -321,7 +336,7 @@ public class registrarEstudiante extends javax.swing.JFrame {
                     .addComponent(jLabel16)
                     .addComponent(jLabel17))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtnumCta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel18)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -336,20 +351,19 @@ public class registrarEstudiante extends javax.swing.JFrame {
 
     private void btncrearEstudianteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncrearEstudianteActionPerformed
         // TODO add your handling code here:
-    int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear nuevo estudiante?",
-    "Confrimacion de agregar estudiante",
-    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-    new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-        if(res == JOptionPane.YES_OPTION){
-            insertarDatos();
-        }
+        JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
+                "Confirmacion de nuevo usuario",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+        this.insertarDatos();
+        Menu menu = new Menu();
+        menu.setVisible(true);
     }//GEN-LAST:event_btncrearEstudianteActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
-            Menu menu = new Menu();
-            menu.setVisible(true);
-            this.dispose();
+        Menu menu = new Menu();
+        menu.setVisible(true);
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
@@ -417,16 +431,16 @@ public class registrarEstudiante extends javax.swing.JFrame {
     private javax.swing.JTextField txtDepartamento;
     private javax.swing.JTextField txtDireccion;
     private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtEstadoCivil;
+    private javax.swing.JTextField txtFechaNacimiento;
+    private javax.swing.JTextField txtIdentidad;
+    private javax.swing.JTextField txtNumCuenta;
+    private javax.swing.JTextField txtPrimerApellido;
+    private javax.swing.JTextField txtPrimerNombre;
     private javax.swing.JTextField txtReferencia;
+    private javax.swing.JTextField txtSegundoApellido;
+    private javax.swing.JTextField txtSegundoNombre;
     private javax.swing.JTextField txtSexo;
     private javax.swing.JTextField txtTelefono;
-    private javax.swing.JTextField txtestadoCivil;
-    private javax.swing.JTextField txtfechaNacimiento;
-    private javax.swing.JTextField txtidentidad;
-    private javax.swing.JTextField txtnumCta;
-    private javax.swing.JTextField txtprimerApellido;
-    private javax.swing.JTextField txtprimerNombre;
-    private javax.swing.JTextField txtsegundoApellido;
-    private javax.swing.JTextField txtsegundoNombre;
     // End of variables declaration//GEN-END:variables
 }

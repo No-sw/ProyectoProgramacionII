@@ -3,75 +3,103 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.mycompany.proyectoprogramacionii;
+
+import com.mongodb.MongoException;
 import com.mongodb.client.MongoCollection;
+import static com.mongodb.client.model.Filters.eq;
+import com.mongodb.client.result.UpdateResult;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
+
 /**
  *
  * @author Toshiba
  */
 public class CrearCuenta extends javax.swing.JFrame {
-    MongoCollection<Document> RegistroUniversidad; 
+
+    MongoCollection<Document> Usuarios;
+
     /**
      * Creates new form CrearCuenta
      */
     public CrearCuenta() {
         initComponents();
-        this.RegistroUniversidad = Main.connMongo.getDB().getCollection("RegistroUniversidad");
+        this.Usuarios = Main.connMongo.getDB().getCollection("registroUsuarios");
     }
-    
-        public void insertarDatos(){
-        Document datosObj = new Document("_id",new ObjectId()).append("primerNombre", primerNombre.getText())
-            .append("segundodoNombre", segundoNombre.getText()).append("primerApellido", primerApellido.getText())
-            .append("segundoApellido",segundoApellido.getText())
-            .append("Identidad", identidad.getText()).append("Edad", Edad.getText())
-            .append("gradoAcademcio", gradoAcademico.getText()).append("Puesto", Puesto.getText())
-            .append("Usuario", txtUsuario.getText()).append("Contrasenia", txtpassword.getText());
-       if(Main.connMongo.insertDocuments(this.RegistroUniversidad ,datosObj)){
+
+    public void insertarDatos() {
+
+        Document datosObj = new Document("_id", new ObjectId())
+                .append("primerNombre", txtPrimerNombre.getText())
+                .append("segundodoNombre", txtSegundoNombre.getText())
+                .append("primerApellido", txtPrimerApellido.getText())
+                .append("segundoApellido", txtSegundoApellido.getText())
+                .append("identidad", txtIdentidad.getText())
+                .append("edad", txtEdad.getText())
+                .append("gradoAcademico", txtGradoAcademico.getText())
+                .append("puesto", txtPuesto.getText())
+                .append("usuario", txtUsuario.getText())
+                .append("contrasena", txtPassword.getText());
+        if (Main.connMongo.insertDocument(this.Usuarios, datosObj)) {
             this.limpiarForm();
-           } 
         }
-        public void limpiarForm(){
-            primerNombre.setText("");
-            segundoNombre.setText("");
-            primerApellido.setText("");
-            segundoApellido.setText("");
-            identidad.setText("");
-            Edad.setText("");
-            gradoAcademico.setText("");
-            Puesto.setText("");
-            txtUsuario.setText("");
-            txtpassword.setText("");
-            primerNombre.requestFocus();
+    }
+
+    public void limpiarForm() {
+        txtPrimerNombre.setText("");
+        txtSegundoNombre.setText("");
+        txtPrimerApellido.setText("");
+        txtSegundoApellido.setText("");
+        txtIdentidad.setText("");
+        txtEdad.setText("");
+        txtGradoAcademico.setText("");
+        txtPuesto.setText("");
+        txtUsuario.setText("");
+        txtPassword.setText("");
+        //txtPrimerNombre.requestFocus();
+    }
+
+    /*public boolean getPassword(MongoCollection<Document> collection, Document data, String usuario) {
+        try {
+            Bson filter = eq("usuario", new ObjectId(usuario));
+            //UpdateResult updateResult = collection.replaceOne(filter, data);
+
+            Document password = collection.find(new Document("usuario", "wess.zelaya")).first();
+            System.out.println("contraseña: " + password.toJson());
+
+            return true; //updateResult.getModifiedCount() > 0 ? true : false;
+        } catch (MongoException error) {
+            JOptionPane.showMessageDialog(null, "no hay contraseña", "Importante!", JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-        
-        public boolean confirmarUsuario(String usuario, char [] password){
-            String Usuario = txtUsuario.getText();
-            char [] Password = txtpassword.getPassword();
-            String contraseña = new String(Password);
-            String confirmacion = new String(password);
-            if(usuario.equals(Usuario)){
-                if(confirmacion.equals(contraseña)){
-                    return true;
-                }
-                else{
-                    return false;
-                }
-            }
-            else{
+    }*/
+
+    public boolean confirmarUsuario(String usuario, String password) {
+        String Usuario = txtUsuario.getText();
+        String Password = txtPassword.getText();
+        String contraseña = new String(Password);
+        String confirmacion = new String(password);
+        if (usuario.equals(Usuario)) {
+            if (confirmacion.equals(contraseña)) {
+                return true;
+            } else {
                 return false;
             }
+        } else {
+            return false;
         }
-        
-        public void cambiarContraseña(char [] password){
-            String Password = new String(password);
-            char [] contraseña = txtpassword.getPassword();
-            String Contraseña = new String(contraseña);
-            Contraseña = Password;
-        }
-    
+    }
+
+    public void cambiarContraseña(String password) {
+        String Password = new String(password);
+        String contraseña = txtPassword.getText();
+        String Contraseña = new String(contraseña);
+        Contraseña = Password;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -86,18 +114,18 @@ public class CrearCuenta extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        primerNombre = new javax.swing.JTextField();
-        segundoNombre = new javax.swing.JTextField();
-        primerApellido = new javax.swing.JTextField();
-        segundoApellido = new javax.swing.JTextField();
+        txtPrimerNombre = new javax.swing.JTextField();
+        txtSegundoNombre = new javax.swing.JTextField();
+        txtPrimerApellido = new javax.swing.JTextField();
+        txtSegundoApellido = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        identidad = new javax.swing.JTextField();
-        Edad = new javax.swing.JTextField();
-        gradoAcademico = new javax.swing.JTextField();
-        Puesto = new javax.swing.JTextField();
+        txtIdentidad = new javax.swing.JTextField();
+        txtEdad = new javax.swing.JTextField();
+        txtGradoAcademico = new javax.swing.JTextField();
+        txtPuesto = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -107,7 +135,7 @@ public class CrearCuenta extends javax.swing.JFrame {
         txtUsuario = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        txtpassword = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -197,18 +225,18 @@ public class CrearCuenta extends javax.swing.JFrame {
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                 .addGap(10, 10, 10)
                                                 .addComponent(jLabel3))
-                                            .addComponent(primerNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
-                                            .addComponent(identidad, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addComponent(txtPrimerNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
+                                            .addComponent(txtIdentidad, javax.swing.GroupLayout.Alignment.LEADING))
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(9, 9, 9)
                                                 .addComponent(jLabel4))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(segundoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
+                                                .addComponent(txtSegundoNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 86, Short.MAX_VALUE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(Edad))))
+                                                .addComponent(txtEdad))))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -230,15 +258,15 @@ public class CrearCuenta extends javax.swing.JFrame {
                                                         .addGap(33, 33, 33))
                                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                            .addComponent(primerApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
-                                                            .addComponent(gradoAcademico, javax.swing.GroupLayout.Alignment.LEADING))
+                                                            .addComponent(txtPrimerApellido, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 95, Short.MAX_VALUE)
+                                                            .addComponent(txtGradoAcademico, javax.swing.GroupLayout.Alignment.LEADING))
                                                         .addGap(9, 9, 9)))
                                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                                     .addComponent(jLabel6)
-                                                    .addComponent(segundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                    .addComponent(Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                                    .addComponent(txtSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                .addComponent(txtpassword, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(txtPassword, javax.swing.GroupLayout.Alignment.LEADING)
                                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                                     .addComponent(jLabel9)
                                                     .addGap(33, 33, 33)
@@ -263,10 +291,10 @@ public class CrearCuenta extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(primerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(segundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(primerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(segundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrimerNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSegundoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPrimerApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtSegundoApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -275,10 +303,10 @@ public class CrearCuenta extends javax.swing.JFrame {
                     .addComponent(jLabel6))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(identidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Edad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(gradoAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Puesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdentidad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGradoAcademico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtPuesto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -288,7 +316,7 @@ public class CrearCuenta extends javax.swing.JFrame {
                 .addGap(31, 31, 31)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtpassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel11)
@@ -305,21 +333,21 @@ public class CrearCuenta extends javax.swing.JFrame {
 
     private void btnCrearUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearUsuarioActionPerformed
         // TODO add your handling code here:
-    int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
-    "Confirmacion de nuevo usuario",
-    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-    new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-    if(res == JOptionPane.YES_OPTION){
-    this.insertarDatos();
-    }
-        this.dispose();
+        JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere crear un nuevo usuario?",
+                "Confirmacion de nuevo usuario",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+        this.insertarDatos();
+        Registro registro = new Registro();
+        registro.setVisible(true);
+
+
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Registro registro = new Registro();
         registro.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
@@ -358,12 +386,8 @@ public class CrearCuenta extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Edad;
-    private javax.swing.JTextField Puesto;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnCrearUsuario;
-    private javax.swing.JTextField gradoAcademico;
-    private javax.swing.JTextField identidad;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -384,11 +408,15 @@ public class CrearCuenta extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
-    private javax.swing.JTextField primerApellido;
-    private javax.swing.JTextField primerNombre;
-    private javax.swing.JTextField segundoApellido;
-    private javax.swing.JTextField segundoNombre;
+    private javax.swing.JTextField txtEdad;
+    private javax.swing.JTextField txtGradoAcademico;
+    private javax.swing.JTextField txtIdentidad;
+    private javax.swing.JTextField txtPassword;
+    private javax.swing.JTextField txtPrimerApellido;
+    private javax.swing.JTextField txtPrimerNombre;
+    private javax.swing.JTextField txtPuesto;
+    private javax.swing.JTextField txtSegundoApellido;
+    private javax.swing.JTextField txtSegundoNombre;
     private javax.swing.JTextField txtUsuario;
-    private javax.swing.JPasswordField txtpassword;
     // End of variables declaration//GEN-END:variables
 }

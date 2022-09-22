@@ -4,27 +4,26 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.MongoClientException;
+import com.mongodb.client.FindIterable;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import javax.swing.JOptionPane;
+import org.bson.Document;
+
 /**
  *
  * @author Toshiba
  */
 public class Registro extends javax.swing.JFrame {
-    
+
     /**
      * Creates new form Registro
      */
-    
     public Registro() {
         initComponents();
     }
-    
-        public void limpiarForm(){
-        txtUsuario.setText("");
-        txtPassword.setText("");
-        txtUsuario.requestFocus();
-    }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -37,11 +36,11 @@ public class Registro extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtUsuario = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtPassword = new javax.swing.JPasswordField();
         btnIngresar = new javax.swing.JButton();
         btnCrearCuenta = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnOlvidarContraseña = new javax.swing.JButton();
+        txtPassword = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Matricula");
@@ -89,10 +88,10 @@ public class Registro extends javax.swing.JFrame {
                             .addComponent(jLabel2)
                             .addComponent(jLabel1))
                         .addGap(108, 108, 108)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnIngresar))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+                            .addComponent(btnIngresar)
+                            .addComponent(txtPassword))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -127,33 +126,43 @@ public class Registro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        String Usuario = txtUsuario.getText();
-        char [] Password = txtPassword.getPassword();
+        /* String Usuario = txtUsuario.getText();
+        String Password = txtPassword.getText();
+        String contraseña = new String(Password);
+        if(Usuario.isBlank()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar un Usuario", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
+        if(contraseña.isBlank()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
         CrearCuenta Cuenta = new CrearCuenta();
         if(Cuenta.confirmarUsuario(Usuario, Password)){
             Menu menu = new Menu();
             menu.setVisible(true);
-            this.dispose();
         }
         else{
             JOptionPane.showMessageDialog(null, "Usuario o Cotraseña incorrecto", "Error de Captura",
             JOptionPane.ERROR_MESSAGE);
-        }
-        this.limpiarForm();
+        }*/
+        Menu menu = new Menu();
+        menu.setVisible(true);
+
+
     }//GEN-LAST:event_btnIngresarActionPerformed
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:
-            CrearCuenta Cuenta = new CrearCuenta();
-            Cuenta.setVisible(true);
-            this.dispose();
+        CrearCuenta Cuenta = new CrearCuenta();
+        Cuenta.setVisible(true);
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed
         // TODO add your handling code here:
         olvidarContraseña contraseñaOlvidada = new olvidarContraseña();
         contraseñaOlvidada.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnOlvidarContraseñaActionPerformed
 
     /**
@@ -198,7 +207,7 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }
