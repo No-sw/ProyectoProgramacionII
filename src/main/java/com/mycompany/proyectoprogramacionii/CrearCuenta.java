@@ -77,9 +77,19 @@ public class CrearCuenta extends javax.swing.JFrame {
         }
     }*/
 
-    public boolean confirmarUsuario(String usuario, String password) {
+ /*
+DBObject result = new Mongo().getDb("yourDatabaseName").getCollection("yourTableName").findOne(new BasicDBObject("id", id), new BasicDBObject("specialColumn", 1));
+return result.get("specialColumn")
+
+
+
+     */
+    public boolean confirmarUsuario(MongoCollection<Document> collection, String usuario, String password) {
         String Usuario = txtUsuario.getText();
         String Password = txtPassword.getText();
+      /*  DBObject result = collection.findOne(new BasicDBObject("usuario", Usuario), new BasicDBObject("usuario", 1));
+        return result.get("contraseña"); */
+
         String contraseña = new String(Password);
         String confirmacion = new String(password);
         if (usuario.equals(Usuario)) {

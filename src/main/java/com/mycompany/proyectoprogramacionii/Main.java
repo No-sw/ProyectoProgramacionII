@@ -16,7 +16,7 @@ public class Main {
     public static void main(String[] args) {
         // TODO code application logic here
         connMongo = new ConexionDB();
-        connMongo.setBD();
+        connMongo.setDB();
         
         Registro formUsuarios = new Registro();
         formUsuarios.setVisible(true);

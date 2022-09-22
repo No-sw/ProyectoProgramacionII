@@ -24,6 +24,20 @@ public class Registro extends javax.swing.JFrame {
         initComponents();
     }
 
+    MongoCollection<Document> Usuarios;
+
+    private boolean login(String usuario, String password) {
+
+        this.Usuarios = Main.connMongo.getDB().getCollection("registroUsuarios");
+        Document result = this.Usuarios.find(new Document("usuario", usuario)).first();
+
+        if (usuario.equals(result.get("usuario")) && password.equals(result.get("contrasena"))) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -126,32 +140,30 @@ public class Registro extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
-        /* String Usuario = txtUsuario.getText();
+        String Usuario = txtUsuario.getText();
         String Password = txtPassword.getText();
         String contraseña = new String(Password);
-        if(Usuario.isBlank()){
+
+        if (Usuario.isBlank()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar un Usuario", "Error de Captura",
-            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
-        
-        if(contraseña.isBlank()){
+
+        if (contraseña.isBlank()) {
             JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
-            JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.ERROR_MESSAGE);
         }
-        CrearCuenta Cuenta = new CrearCuenta();
-        if(Cuenta.confirmarUsuario(Usuario, Password)){
+        if (this.login(Usuario, Password)) {
             Menu menu = new Menu();
             menu.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrecto", "Error de Captura",
+                    JOptionPane.ERROR_MESSAGE);
         }
-        else{
-            JOptionPane.showMessageDialog(null, "Usuario o Cotraseña incorrecto", "Error de Captura",
-            JOptionPane.ERROR_MESSAGE);
-        }*/
-        Menu menu = new Menu();
-        menu.setVisible(true);
 
 
     }//GEN-LAST:event_btnIngresarActionPerformed
+
 
     private void btnCrearCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearCuentaActionPerformed
         // TODO add your handling code here:

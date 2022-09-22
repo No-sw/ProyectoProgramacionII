@@ -34,7 +34,7 @@ public class ConexionDB {
         }
     }
 
-    public void setBD() {
+    public void setDB() {
         dataBaseSelect = conn.getDatabase("sistemaMatricula");
         System.out.println("DB Selecionada: " + dataBaseSelect.toString());
     }
@@ -93,3 +93,8 @@ public class ConexionDB {
 
 
 }
+/*
+DBObject result = new Mongo().getDb("yourDatabaseName").getCollection("yourTableName").findOne(new BasicDBObject("id", id), new BasicDBObject("specialColumn", 1));
+return result.get("specialColumn")
+
+*/
