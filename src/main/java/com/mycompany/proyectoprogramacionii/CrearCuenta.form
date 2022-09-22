@@ -87,8 +87,8 @@
                                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                                               <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Component id="primerNombre" alignment="0" pref="84" max="32767" attributes="0"/>
-                                          <Component id="identidad" alignment="0" max="32767" attributes="0"/>
+                                          <Component id="txtPrimerNombre" alignment="0" pref="84" max="32767" attributes="0"/>
+                                          <Component id="txtIdentidad" alignment="0" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                           <Group type="102" attributes="0">
@@ -97,11 +97,11 @@
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="segundoNombre" pref="86" max="32767" attributes="0"/>
+                                              <Component id="txtSegundoNombre" pref="86" max="32767" attributes="0"/>
                                           </Group>
                                           <Group type="102" alignment="0" attributes="0">
                                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                              <Component id="Edad" max="32767" attributes="0"/>
+                                              <Component id="txtEdad" max="32767" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -131,20 +131,20 @@
                                                   </Group>
                                                   <Group type="102" alignment="1" attributes="0">
                                                       <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                                          <Component id="primerApellido" alignment="0" pref="95" max="32767" attributes="0"/>
-                                                          <Component id="gradoAcademico" alignment="0" max="32767" attributes="0"/>
+                                                          <Component id="txtPrimerApellido" alignment="0" pref="95" max="32767" attributes="0"/>
+                                                          <Component id="txtGradoAcademico" alignment="0" max="32767" attributes="0"/>
                                                       </Group>
                                                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
                                               <Group type="103" groupAlignment="0" attributes="0">
                                                   <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                                                  <Component id="segundoApellido" min="-2" pref="89" max="-2" attributes="0"/>
-                                                  <Component id="Puesto" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
+                                                  <Component id="txtSegundoApellido" min="-2" pref="89" max="-2" attributes="0"/>
+                                                  <Component id="txtPuesto" alignment="0" min="-2" pref="89" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                           <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
-                                              <Component id="txtpassword" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="txtPassword" alignment="0" max="32767" attributes="0"/>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel9" min="-2" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
@@ -183,10 +183,10 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="primerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="segundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="primerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="segundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPrimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -197,10 +197,10 @@
               </Group>
               <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="identidad" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Edad" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="gradoAcademico" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="Puesto" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtIdentidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtEdad" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtGradoAcademico" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPuesto" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -212,7 +212,7 @@
               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="txtUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtpassword" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -246,13 +246,13 @@
         <Property name="text" type="java.lang.String" value="Favor de llenar cada uno de los siguientes campos"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="primerNombre">
+    <Component class="javax.swing.JTextField" name="txtPrimerNombre">
     </Component>
-    <Component class="javax.swing.JTextField" name="segundoNombre">
+    <Component class="javax.swing.JTextField" name="txtSegundoNombre">
     </Component>
-    <Component class="javax.swing.JTextField" name="primerApellido">
+    <Component class="javax.swing.JTextField" name="txtPrimerApellido">
     </Component>
-    <Component class="javax.swing.JTextField" name="segundoApellido">
+    <Component class="javax.swing.JTextField" name="txtSegundoApellido">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -274,13 +274,13 @@
         <Property name="text" type="java.lang.String" value="2do apellido"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="identidad">
+    <Component class="javax.swing.JTextField" name="txtIdentidad">
     </Component>
-    <Component class="javax.swing.JTextField" name="Edad">
+    <Component class="javax.swing.JTextField" name="txtEdad">
     </Component>
-    <Component class="javax.swing.JTextField" name="gradoAcademico">
+    <Component class="javax.swing.JTextField" name="txtGradoAcademico">
     </Component>
-    <Component class="javax.swing.JTextField" name="Puesto">
+    <Component class="javax.swing.JTextField" name="txtPuesto">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -330,7 +330,7 @@
         <Property name="text" type="java.lang.String" value="Cree su contrase&#xf1;a"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JPasswordField" name="txtpassword">
+    <Component class="javax.swing.JTextField" name="txtPassword">
     </Component>
   </SubComponents>
 </Form>

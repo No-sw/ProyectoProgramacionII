@@ -54,14 +54,14 @@
               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                   <Component id="txtCiudad" alignment="0" pref="92" max="32767" attributes="0"/>
                   <Component id="txtSexo" alignment="0" max="32767" attributes="0"/>
-                  <Component id="txtidentidad" alignment="0" max="32767" attributes="0"/>
-                  <Component id="txtprimerNombre" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtIdentidad" alignment="0" max="32767" attributes="0"/>
+                  <Component id="txtPrimerNombre" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtsegundoNombre" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtSegundoNombre" alignment="0" max="32767" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
@@ -74,8 +74,8 @@
                               <EmptySpace min="10" pref="10" max="-2" attributes="0"/>
                               <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtfechaNacimiento" alignment="0" pref="94" max="32767" attributes="0"/>
-                          <Component id="txtprimerApellido" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtFechaNacimiento" alignment="0" pref="94" max="32767" attributes="0"/>
+                          <Component id="txtPrimerApellido" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
@@ -84,8 +84,8 @@
                               <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
-                          <Component id="txtestadoCivil" alignment="0" max="32767" attributes="0"/>
-                          <Component id="txtsegundoApellido" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtEstadoCivil" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtSegundoApellido" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -100,7 +100,7 @@
                   </Group>
               </Group>
           </Group>
-          <Component id="txtnumCta" alignment="1" max="32767" attributes="0"/>
+          <Component id="txtNumCuenta" alignment="1" max="32767" attributes="0"/>
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
@@ -181,10 +181,10 @@
               <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtprimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtsegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtprimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtsegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPrimerNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSegundoNombre" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPrimerApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtSegundoApellido" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -195,10 +195,10 @@
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="txtidentidad" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtIdentidad" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtEdad" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtfechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtestadoCivil" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtFechaNacimiento" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtEstadoCivil" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -233,7 +233,7 @@
                   <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="txtnumCta" min="-2" max="-2" attributes="0"/>
+              <Component id="txtNumCuenta" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jLabel18" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -255,18 +255,18 @@
         <Property name="text" type="java.lang.String" value="Registro de un nuevo Estudiante"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtprimerNombre">
+    <Component class="javax.swing.JTextField" name="txtPrimerNombre">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
         <Property name="text" type="java.lang.String" value="Favor llenar cada uno de los siguientes campos"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtsegundoNombre">
+    <Component class="javax.swing.JTextField" name="txtSegundoNombre">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtprimerApellido">
+    <Component class="javax.swing.JTextField" name="txtPrimerApellido">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtsegundoApellido">
+    <Component class="javax.swing.JTextField" name="txtSegundoApellido">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
@@ -288,13 +288,13 @@
         <Property name="text" type="java.lang.String" value="2do apellido"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtidentidad">
+    <Component class="javax.swing.JTextField" name="txtIdentidad">
     </Component>
     <Component class="javax.swing.JTextField" name="txtEdad">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtfechaNacimiento">
+    <Component class="javax.swing.JTextField" name="txtFechaNacimiento">
     </Component>
-    <Component class="javax.swing.JTextField" name="txtestadoCivil">
+    <Component class="javax.swing.JTextField" name="txtEstadoCivil">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
@@ -360,7 +360,7 @@
         <Property name="text" type="java.lang.String" value="Departamento"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtnumCta">
+    <Component class="javax.swing.JTextField" name="txtNumCuenta">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel18">
       <Properties>

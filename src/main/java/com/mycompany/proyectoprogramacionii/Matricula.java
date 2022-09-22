@@ -4,21 +4,59 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
  * @author Toshiba
  */
 public class Matricula extends javax.swing.JFrame {
+
+    MongoCollection<Document> Asignaturas;
     DefaultTableModel modelAsignaturas;
-    /**
-     * Creates new form Matricula
-     */
+
     public Matricula() {
         initComponents();
+        this.Asignaturas = Main.connMongo.getDB().getCollection("asignaturas");
+
+        this.modelAsignaturas = new DefaultTableModel();
+        this.modelAsignaturas.addColumn("Id");
+        this.modelAsignaturas.addColumn("Asignaturas");
+        this.modelAsignaturas.addColumn("Codigo");
+        this.modelAsignaturas.addColumn("Catedratico");
+        this.modelAsignaturas.addColumn("Seccion");
+        this.modelAsignaturas.addColumn("Horario");
+        this.llenarTabla();
+
+        this.tblAsignaturas.getColumnModel().getColumn(0).setMinWidth(0);
+        this.tblAsignaturas.getColumnModel().getColumn(0).setMaxWidth(0);
+
+    }
+
+    private void llenarTabla() {
+        this.tblAsignaturas.setModel(this.modelAsignaturas);
+
+        MongoCursor<Document> cursor = Main.connMongo.getDocuments(this.Asignaturas).iterator();
+        while (cursor.hasNext()) {
+            Document documento = cursor.next();
+            System.out.println(documento);
+            this.agregarRegistrosTabla(documento);
+        }
+    }
+
+    private void agregarRegistrosTabla(Document fila) {
+        String id = fila.get("_id").toString();
+        String asignatura = fila.get("asignatura").toString();
+        String codigo = fila.get("codigo").toString();
+        String catedratico = fila.get("catedratico").toString();
+        String seccion = fila.get("seccion").toString();
+        String horario = fila.get("horario").toString();
+        this.modelAsignaturas.addRow(new Object[]{id, asignatura, codigo, catedratico, seccion, horario});
     }
 
     /**
@@ -38,6 +76,8 @@ public class Matricula extends javax.swing.JFrame {
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
         jCheckBox3 = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        txtNumCuenta = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -50,22 +90,12 @@ public class Matricula extends javax.swing.JFrame {
 
         tblAsignaturas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {"Matematicas I", "  MM101", "Raul Zaldivar", "       1", "Lu Mi Vi"},
-                {"Administracion II", "   ADM 103", "Patricia Flores", "       V2", "Ma Ju"},
-                {"Apreciacion Musical", "   ART102", "Marco Torres", "      V33", "     Vi"}
+
             },
             new String [] {
-                "Asignatura", "Codigo", "Catedratico", "Seccion", "Horario"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
 
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
             }
-        });
+        ));
         tblAsignaturas.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tblAsignaturas);
         tblAsignaturas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
@@ -83,6 +113,17 @@ public class Matricula extends javax.swing.JFrame {
                 btnCancelarActionPerformed(evt);
             }
         });
+
+        jCheckBox1.setMargin(new java.awt.Insets(1, 1, 1, 1));
+        jCheckBox1.setMaximumSize(new java.awt.Dimension(16, 16));
+        jCheckBox1.setMinimumSize(new java.awt.Dimension(16, 16));
+        jCheckBox1.setPreferredSize(new java.awt.Dimension(16, 16));
+
+        jCheckBox2.setMargin(new java.awt.Insets(1, 1, 1, 1));
+
+        jCheckBox3.setMargin(new java.awt.Insets(1, 1, 1, 1));
+
+        jLabel2.setText("Numero de Cuenta:");
 
         jMenu1.setText("Archivo");
         jMenuBar1.add(jMenu1);
@@ -102,49 +143,54 @@ public class Matricula extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(54, 54, 54)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)))
+                .addGap(0, 15, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(51, 51, 51)
                 .addComponent(btnMatricular)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
-                .addGap(83, 83, 83))
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jCheckBox1)
-                                .addComponent(jCheckBox2, javax.swing.GroupLayout.Alignment.TRAILING))
-                            .addComponent(jCheckBox3, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(txtNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jLabel1)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
-                        .addComponent(jCheckBox1)
+                        .addGap(17, 17, 17)
+                        .addComponent(jCheckBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox2)
+                        .addComponent(jCheckBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jCheckBox3)))
-                .addGap(39, 39, 39)
+                        .addComponent(jCheckBox3)
+                        .addGap(0, 13, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnMatricular)
                     .addComponent(btnCancelar))
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -152,31 +198,18 @@ public class Matricula extends javax.swing.JFrame {
 
     private void btnMatricularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMatricularActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere Matricular las clases Seleccionadas?",
-    "Confirmacion de Matricula",
-    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-    new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-
-        if(jCheckBox1.isSelected()){
-            this.modelAsignaturas.getValueAt(1, 1);
-            this.modelAsignaturas.getValueAt(1, 2);
-            this.modelAsignaturas.getValueAt(1, 3);
-            this.modelAsignaturas.getValueAt(1, 4);
-            this.modelAsignaturas.getValueAt(1, 5);
+        JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere Matricular las clases Seleccionadas?",
+                "Confirmacion de Matricula",
+                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
+        if (jCheckBox1.isSelected()) {
+            this.modelAsignaturas.getValueAt(0, NORMAL);
         }
-        if(jCheckBox2.isSelected()){
-            this.modelAsignaturas.getValueAt(2, 1);
-            this.modelAsignaturas.getValueAt(2, 2);
-            this.modelAsignaturas.getValueAt(2, 3);
-            this.modelAsignaturas.getValueAt(2, 4);
-            this.modelAsignaturas.getValueAt(2, 5);
+        if (jCheckBox2.isSelected()) {
+            this.modelAsignaturas.getValueAt(1, NORMAL);
         }
-        if(jCheckBox3.isSelected()){
-            this.modelAsignaturas.getValueAt(3, 1);
-            this.modelAsignaturas.getValueAt(3, 2);
-            this.modelAsignaturas.getValueAt(3, 3);
-            this.modelAsignaturas.getValueAt(3, 4);
-            this.modelAsignaturas.getValueAt(3, 5);
+        if (jCheckBox3.isSelected()) {
+            this.modelAsignaturas.getValueAt(2, NORMAL);
         }
         JOptionPane.showMessageDialog(rootPane, "\"Las Asignaturas han sido matriculadas exitosamente");
     }//GEN-LAST:event_btnMatricularActionPerformed
@@ -185,7 +218,6 @@ public class Matricula extends javax.swing.JFrame {
         // TODO add your handling code here:
         Menu menu = new Menu();
         menu.setVisible(true);
-        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
@@ -230,6 +262,7 @@ public class Matricula extends javax.swing.JFrame {
     private javax.swing.JCheckBox jCheckBox2;
     private javax.swing.JCheckBox jCheckBox3;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -237,5 +270,6 @@ public class Matricula extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAsignaturas;
+    private javax.swing.JTextField txtNumCuenta;
     // End of variables declaration//GEN-END:variables
 }
