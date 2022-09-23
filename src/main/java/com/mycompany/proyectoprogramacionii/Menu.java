@@ -160,6 +160,7 @@ public class Menu extends javax.swing.JFrame {
         // TODO add your handling code here:
             Registro registro = new Registro();
             registro.setVisible(true);
+            this.dispose();
     }//GEN-LAST:event_btncerrarSesionActionPerformed
 
     /**

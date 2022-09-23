@@ -5,6 +5,7 @@
 package com.mycompany.proyectoprogramacionii;
 
 import com.mongodb.MongoClientException;    
+import com.mongodb.MongoException;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
@@ -58,18 +59,43 @@ public class ConexionDB {
             return false;
         }
     }
+    
     public FindIterable<Document> getDocuments(MongoCollection<Document> collection){
-        FindIterable<Document> iterable = null;
+    FindIterable<Document> iterable = null;
+    try{
+      iterable = collection.find();
+    } catch(MongoClientException error){
+        JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
+    }
+      return iterable;
+    }
+    
+    public Document getOneDocuments(MongoCollection<Document> collection, String id){
+        Document doc = null;
         try{
-            iterable = collection.find();
+            Bson filter = eq("_id", new ObjectId(id));
+            doc = collection.find(filter).first();
+        }
+        catch(MongoException error){
+            JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!", JOptionPane.ERROR_MESSAGE);
+        }
+        return doc;
+    }
+    
+    public boolean actualizarRegistros(MongoCollection<Document> collection ,Document data, String id){
+        try{
+            Bson filter = eq(id, new ObjectId(id));
+            UpdateResult updateResult = collection.replaceOne(filter, data);
+            return updateResult.getModifiedCount()>0 ? true : false;            
         } catch(MongoClientException error){
             JOptionPane.showMessageDialog(null, "Registro no pudo ser ingresado","Importante!",JOptionPane.ERROR_MESSAGE);
+            return false;
         }
-        return iterable;
     }
-    public boolean deleteRegistros(MongoCollection<Document> collection ,String id){
+
+    public boolean deleteDocuments(MongoCollection<Document> collection, String id) {
         try{
-        Bson filter = eq(id, new ObjectId(id));
+        Bson filter = eq("_id", new ObjectId(id));
         DeleteResult result = collection.deleteOne(filter);
         return result.getDeletedCount()>0 ? true : false;
         } catch(MongoClientException error){
@@ -77,9 +103,10 @@ public class ConexionDB {
             return false;
         }
     }
-    public boolean actualizarRegistros(MongoCollection<Document> collection ,Document data, String id){
+
+    public boolean actualizarDocuments(MongoCollection<Document> collection, Document data, String id) {
         try{
-            Bson filter = eq(id, new ObjectId(id));
+            Bson filter = eq("_id", new ObjectId(id));
             UpdateResult updateResult = collection.replaceOne(filter, data);
             return updateResult.getModifiedCount()>0 ? true : false;            
         } catch(MongoClientException error){

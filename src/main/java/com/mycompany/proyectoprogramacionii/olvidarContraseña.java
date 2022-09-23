@@ -4,15 +4,17 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.client.MongoCollection;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import org.bson.Document;
 
 /**
  *
  * @author Toshiba
  */
 public class olvidarContraseña extends javax.swing.JFrame {
-    char[] nuevaContraseña;
+    MongoCollection<Document> nuevaContrasenia;
     /**
      * Creates new form olvidarContraseña
      */
@@ -23,9 +25,25 @@ public class olvidarContraseña extends javax.swing.JFrame {
     public void limpiarForm(){
         txtUsuario.setText("");
         txtID.setText("");
-        txtnuevaContraseña.setText("");
+        txtContrasenia.setText("");
         txtConfirmacion.setText("");
         txtUsuario.requestFocus();
+    }
+    
+    private boolean cambioContrasenia(String usuario){
+        this.nuevaContrasenia = Main.connMongo.getDB().getCollection("RegistroUniversidad");
+        Document result = this.nuevaContrasenia.find(new Document("Usuario", usuario)).first();
+        if(usuario.equals(result.get("Usuario"))){
+            return true;
+        }
+        else{
+            return false;
+        }
+    } 
+    
+    private void nuevaContrasenia(String contrasenia){
+        Document result = this.nuevaContrasenia.find(new Document("Contrasenia", contrasenia)).first();
+        
     }
 
     /**
@@ -43,7 +61,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        txtnuevaContraseña = new javax.swing.JPasswordField();
+        txtContrasenia = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
         btncambiarContraseña = new javax.swing.JButton();
         btnCancelar = new javax.swing.JButton();
@@ -98,7 +116,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtUsuario, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
                                     .addComponent(txtID)
-                                    .addComponent(txtnuevaContraseña)
+                                    .addComponent(txtContrasenia)
                                     .addComponent(txtConfirmacion)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btncambiarContraseña)
@@ -122,7 +140,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(txtnuevaContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
@@ -139,13 +157,29 @@ public class olvidarContraseña extends javax.swing.JFrame {
 
     private void btncambiarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btncambiarContraseñaActionPerformed
         // TODO add your handling code here:
-    JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere cambiar la contraseña?",
+    String usuario = txtUsuario.getText();
+    String Contrasenia = new String(txtContrasenia.getPassword());
+    String Confirmacion = new String(txtConfirmacion.getPassword());
+    
+    int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere cambiar la contraseña?",
     "Confirmacion de cambio de contraseña",
     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
     new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-    nuevaContraseña = txtnuevaContraseña.getPassword();
-    CrearCuenta cuenta = new CrearCuenta();
-    cuenta.cambiarContraseña(nuevaContraseña);
+    if(res == JOptionPane.YES_OPTION){
+        if(cambioContrasenia(usuario)){
+            if(Confirmacion.equals(Contrasenia)){
+            } 
+            else{
+            JOptionPane.showMessageDialog(null, "Confirmacion no coincide con contrsenia", "Error de captura",
+            JOptionPane.ERROR_MESSAGE);                
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Usuario no coincide", "Error de captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    
     this.limpiarForm();
     }//GEN-LAST:event_btncambiarContraseñaActionPerformed
 
@@ -202,8 +236,8 @@ public class olvidarContraseña extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPasswordField txtConfirmacion;
+    private javax.swing.JPasswordField txtContrasenia;
     private javax.swing.JTextField txtID;
     private javax.swing.JTextField txtUsuario;
-    private javax.swing.JPasswordField txtnuevaContraseña;
     // End of variables declaration//GEN-END:variables
 }

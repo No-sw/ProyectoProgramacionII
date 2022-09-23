@@ -5,8 +5,11 @@
 package com.mycompany.proyectoprogramacionii;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -20,19 +23,18 @@ public class listaAsignaturas extends javax.swing.JFrame {
      */
     public listaAsignaturas() {
         initComponents();
-        this.Asignaturas = Main.connMongo.getDB().getCollection("ListaAsignaturas");
+        this.Asignaturas =  Main.connMongo.getDB().getCollection("ListaAsignaturas");
         this.modelAsignaturas = new DefaultTableModel();
-        this.modelAsignaturas.addColumn("id");
+        this.modelAsignaturas.addColumn("_id");
         this.modelAsignaturas.addColumn("Asignaturas");
-        this.modelAsignaturas.addColumn("Codigo");
-        this.modelAsignaturas.addColumn("Catedratico");
         this.modelAsignaturas.addColumn("Seccion");
+        this.modelAsignaturas.addColumn("Codigo");
         this.modelAsignaturas.addColumn("Horario");
+        this.modelAsignaturas.addColumn("Catedratico");
         this.llenarTabla();
-        //Ocultar ID de la tabla
         this.tblAsignaturas.getColumnModel().getColumn(0).setMinWidth(0);
         this.tblAsignaturas.getColumnModel().getColumn(0).setMaxWidth(0);
-        
+
     }
     
     private void llenarTabla(){
@@ -43,15 +45,38 @@ public class listaAsignaturas extends javax.swing.JFrame {
             this.agregarRegistrosTabla(Documento);
         }
     }
-        private void agregarRegistrosTabla(Document fila){
+    
+        private void insertarDatos(){
+        Document datosObj = new Document("_id", new ObjectId())
+                .append("asignatura", txtAsignatura.getText())
+                .append("seccion", txtSeccion.getText())
+                .append("codigo", txtCodigo.getText())
+                .append("horario", txtHorario.getText())
+                .append("catedratcio", txtCatedratico.getText());
+    if(Main.connMongo.insertDocuments(this.Asignaturas, datosObj)){
+        this.agregarRegistrosTabla(datosObj);
+        this.limpiarForm();
+       }
+    }
+    
+    private void agregarRegistrosTabla(Document fila){
         String id = fila.get("_id").toString();
-        String Asignatura = fila.get("Asignatura").toString();
-        String Codigo = fila.get("Codigo").toString();
-        String Catedratico = fila.get("Catedrarico").toString();
-        String Seccion = fila.get("Seccion").toString();
-        String Horario = fila.get("Horario").toString();
-        this.modelAsignaturas.addRow(new Object[]{id, Asignatura, Codigo, Catedratico,
-        Seccion, Horario});
+        String asignatura  = fila.get("asignatura").toString();
+        String seccion = fila.get("seccion").toString();
+        String codigo = fila.get("codigo").toString();
+        String horario = fila.get("horario").toString();
+        String catedratico = fila.get("catedratico").toString();
+        this.modelAsignaturas.addRow(new Object[]{id, asignatura, seccion, codigo, horario, catedratico});
+    }
+    
+    
+    private void limpiarForm(){
+        txtAsignatura.setText("");
+        txtSeccion.setText("");
+        txtCodigo.setText("");
+        txtHorario.setText("");
+        txtCatedratico.setText("");
+        txtAsignatura.requestFocus();
     }
 
     /**
@@ -66,6 +91,20 @@ public class listaAsignaturas extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAsignaturas = new javax.swing.JTable();
         btnRegresar = new javax.swing.JButton();
+        btnAgregar = new javax.swing.JButton();
+        btnActualizar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        Asignatura = new javax.swing.JLabel();
+        Codigo = new javax.swing.JLabel();
+        Catedratico = new javax.swing.JLabel();
+        txtAsignatura = new javax.swing.JTextField();
+        txtCodigo = new javax.swing.JTextField();
+        txtCatedratico = new javax.swing.JTextField();
+        Seccion = new javax.swing.JLabel();
+        Horario = new javax.swing.JLabel();
+        txtSeccion = new javax.swing.JTextField();
+        txtHorario = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -91,6 +130,40 @@ public class listaAsignaturas extends javax.swing.JFrame {
             }
         });
 
+        btnAgregar.setText("Agregar");
+        btnAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAgregarActionPerformed(evt);
+            }
+        });
+
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnActualizarActionPerformed(evt);
+            }
+        });
+
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 3, 18)); // NOI18N
+        jLabel1.setText("Listado de Asignaturas disponible");
+
+        Asignatura.setText("Asignatura");
+
+        Codigo.setText("Codigo");
+
+        Catedratico.setText("Catedratico");
+
+        Seccion.setText("Seccion");
+
+        Horario.setText("Horario");
+
         jMenu1.setText("Archivo");
         jMenuBar1.add(jMenu1);
 
@@ -109,23 +182,82 @@ public class listaAsignaturas extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
             .addGroup(layout.createSequentialGroup()
-                .addGap(151, 151, 151)
-                .addComponent(btnRegresar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAgregar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnActualizar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnEliminar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnRegresar))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Catedratico)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtCatedratico, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Asignatura)
+                            .addComponent(Codigo))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(55, 55, 55)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(Seccion)
+                            .addComponent(Horario))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtSeccion)
+                            .addComponent(txtHorario, javax.swing.GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))))
+                .addContainerGap(70, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(16, 16, 16)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Asignatura)
+                            .addComponent(txtAsignatura, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Seccion)
+                            .addComponent(txtSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Codigo)
+                            .addComponent(txtCodigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Horario)))
+                    .addComponent(txtHorario, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Catedratico)
+                    .addComponent(txtCatedratico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnRegresar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnRegresar)
+                    .addComponent(btnAgregar)
+                    .addComponent(btnActualizar)
+                    .addComponent(btnEliminar))
+                .addGap(7, 7, 7))
         );
 
         pack();
@@ -138,6 +270,69 @@ public class listaAsignaturas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
+        // TODO add your handling code here:
+        this.insertarDatos();
+    }//GEN-LAST:event_btnAgregarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro que desea actualizar el registro seleccionado?", 
+                    "Confirmacion de actualizacion",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    new Object[] { "Si", "No" }, JOptionPane.YES_OPTION);
+
+        int posicion = this.tblAsignaturas.getSelectedRow();
+        if(posicion>=0 && res==JOptionPane.YES_OPTION ){
+           int nCol = this.modelAsignaturas.getColumnCount();
+           String[] dataTabla = new String[nCol];
+           for(int i=0;i<nCol;i++){
+            dataTabla[i]=this.modelAsignaturas.getValueAt(posicion, i).toString();
+           }
+
+           Document datosObj = new Document("asignatura",this.txtAsignatura.getText())
+            .append("seccion",this.txtSeccion.getText())
+            .append("codigo", this.txtCodigo.getText())
+            .append("horario", this.txtHorario.getText())
+            .append("catedratico", this.txtCatedratico.getText());
+           
+           JOptionPane.showMessageDialog(null, Main.connMongo.actualizarDocuments(this.Asignaturas,datosObj,dataTabla[0])?"Registro Actualizado con exito":"Registro no pudo ser actualizado");
+          
+           this.modelAsignaturas.setValueAt(this.txtAsignatura.getText(), posicion, 1);
+           this.modelAsignaturas.setValueAt(this.txtSeccion.getText(), posicion, 2);
+           this.modelAsignaturas.setValueAt(this.txtCodigo.getText(), posicion, 3);
+           this.modelAsignaturas.setValueAt(this.txtHorario.getText(), posicion, 4);
+           this.modelAsignaturas.setValueAt(this.txtCatedratico.getText(), posicion, 5);
+           this.limpiarForm();
+           this.tblAsignaturas.clearSelection();
+      
+        }else{
+           JOptionPane.showMessageDialog(null, "Seleccione un registro de la tabla");
+        }
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        int res = JOptionPane.showOptionDialog(new JFrame(), "Esta seguro que desea eliminar el registro seleccionado?", 
+                    "Confirmacion de eliminacion",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
+                    new Object[] { "Si", "No" }, JOptionPane.YES_OPTION);
+
+        JOptionPane.showMessageDialog(null, (res==JOptionPane.YES_OPTION && this.deleteAsignaturas())? "Registro eliminado con exito!":"Registro no pudo ser eliminado!");
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+        public boolean deleteAsignaturas(){
+    int posicion = this.tblAsignaturas.getSelectedRow();
+     if(posicion>=0){
+        String id =this.modelAsignaturas.getValueAt(posicion, 0).toString();
+        this.modelAsignaturas.removeRow(posicion);
+        Main.connMongo.deleteDocuments(this.Asignaturas,id);
+        return true;
+     }else{
+        return false;
+     }
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -174,7 +369,16 @@ public class listaAsignaturas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Asignatura;
+    private javax.swing.JLabel Catedratico;
+    private javax.swing.JLabel Codigo;
+    private javax.swing.JLabel Horario;
+    private javax.swing.JLabel Seccion;
+    private javax.swing.JButton btnActualizar;
+    private javax.swing.JButton btnAgregar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnRegresar;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -182,5 +386,10 @@ public class listaAsignaturas extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblAsignaturas;
+    private javax.swing.JTextField txtAsignatura;
+    private javax.swing.JTextField txtCatedratico;
+    private javax.swing.JTextField txtCodigo;
+    private javax.swing.JTextField txtHorario;
+    private javax.swing.JTextField txtSeccion;
     // End of variables declaration//GEN-END:variables
 }

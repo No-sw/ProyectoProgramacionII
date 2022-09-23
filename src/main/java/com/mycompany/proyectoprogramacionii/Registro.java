@@ -4,13 +4,15 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.client.MongoCollection;
 import javax.swing.JOptionPane;
+import org.bson.Document;
 /**
  *
  * @author Toshiba
  */
 public class Registro extends javax.swing.JFrame {
-    
+    MongoCollection<Document> Usuarios;
     /**
      * Creates new form Registro
      */
@@ -25,6 +27,17 @@ public class Registro extends javax.swing.JFrame {
         txtUsuario.requestFocus();
     }
     
+    private boolean login(String usuario, String password){
+        this.Usuarios = Main.connMongo.getDB().getCollection("RegistroUniversidad");
+        Document result = this.Usuarios.find(new Document("Usuario",usuario)).first();
+        Document result1 = this.Usuarios.find(new Document("Contrasenia",password)).first();
+        if(usuario.equals(result.get("Usuario")) && password.equals(result1.get("Contrasenia"))){
+            return true;
+        } else{
+            return false;
+        }
+    }    
+        
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -129,16 +142,28 @@ public class Registro extends javax.swing.JFrame {
     private void btnIngresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarActionPerformed
         String Usuario = txtUsuario.getText();
         char [] Password = txtPassword.getPassword();
-        CrearCuenta Cuenta = new CrearCuenta();
-        if(Cuenta.confirmarUsuario(Usuario, Password)){
+        String password = new String(Password);
+        if(login(Usuario, password)){
             Menu menu = new Menu();
             menu.setVisible(true);
             this.dispose();
         }
+        
         else{
             JOptionPane.showMessageDialog(null, "Usuario o Cotraseña incorrecto", "Error de Captura",
             JOptionPane.ERROR_MESSAGE);
         }
+        
+        if(Usuario == null){
+            JOptionPane.showMessageDialog(null, "Debe ingresar Usuario", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);            
+        }
+        
+        if(password.isBlank()){
+            JOptionPane.showMessageDialog(null, "Debe ingresar Contraseña", "Error de Captura",
+            JOptionPane.ERROR_MESSAGE);
+        }
+        
         this.limpiarForm();
     }//GEN-LAST:event_btnIngresarActionPerformed
 

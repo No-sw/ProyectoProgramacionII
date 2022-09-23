@@ -4,9 +4,12 @@
  */
 package com.mycompany.proyectoprogramacionii;
 
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.bson.Document;
 
 /**
  *
@@ -14,11 +17,47 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Matricula extends javax.swing.JFrame {
     DefaultTableModel modelAsignaturas;
+   MongoCollection<Document> Asignaturas;
     /**
      * Creates new form Matricula
      */
     public Matricula() {
         initComponents();
+        this.Asignaturas = Main.connMongo.getDB().getCollection("ListaAsignaturas");
+
+        this.modelAsignaturas = new DefaultTableModel();
+        this.modelAsignaturas.addColumn("Id");
+        this.modelAsignaturas.addColumn("Asignaturas");
+        this.modelAsignaturas.addColumn("Codigo");
+        this.modelAsignaturas.addColumn("Catedratico");
+        this.modelAsignaturas.addColumn("Seccion");
+        this.modelAsignaturas.addColumn("Horario");
+        this.llenarTabla();
+
+        this.tblAsignaturas.getColumnModel().getColumn(0).setMinWidth(0);
+        this.tblAsignaturas.getColumnModel().getColumn(0).setMaxWidth(0);
+
+    }
+
+    private void llenarTabla() {
+        this.tblAsignaturas.setModel(this.modelAsignaturas);
+
+        MongoCursor<Document> cursor = Main.connMongo.getDocuments(this.Asignaturas).iterator();
+        while (cursor.hasNext()) {
+            Document documento = cursor.next();
+            System.out.println(documento);
+            this.agregarRegistrosTabla(documento);
+        }
+    }
+
+    private void agregarRegistrosTabla(Document fila) {
+        String id = fila.get("_id").toString();
+        String asignatura = fila.get("asignatura").toString();
+        String codigo = fila.get("codigo").toString();
+        String catedratico = fila.get("catedratico").toString();
+        String seccion = fila.get("seccion").toString();
+        String horario = fila.get("horario").toString();
+        this.modelAsignaturas.addRow(new Object[]{id, asignatura, codigo, catedratico, seccion, horario});
     }
 
     /**
@@ -69,6 +108,13 @@ public class Matricula extends javax.swing.JFrame {
         tblAsignaturas.setColumnSelectionAllowed(true);
         jScrollPane1.setViewportView(tblAsignaturas);
         tblAsignaturas.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        if (tblAsignaturas.getColumnModel().getColumnCount() > 0) {
+            tblAsignaturas.getColumnModel().getColumn(0).setHeaderValue("Asignatura");
+            tblAsignaturas.getColumnModel().getColumn(1).setHeaderValue("Codigo");
+            tblAsignaturas.getColumnModel().getColumn(2).setHeaderValue("Catedratico");
+            tblAsignaturas.getColumnModel().getColumn(3).setHeaderValue("Seccion");
+            tblAsignaturas.getColumnModel().getColumn(4).setHeaderValue("Horario");
+        }
 
         btnMatricular.setText("Matricular");
         btnMatricular.addActionListener(new java.awt.event.ActionListener() {
