@@ -160,7 +160,7 @@ public class Registro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrecto", "Error de Captura",
                     JOptionPane.ERROR_MESSAGE);
         }
-        this.dispose();
+        
 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
