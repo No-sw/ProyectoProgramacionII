@@ -293,6 +293,7 @@ public class listaAsignaturas extends javax.swing.JFrame {
         // TODO add your handling code here:
         Menu menu = new Menu();
         menu.show();
+this.dispose();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed

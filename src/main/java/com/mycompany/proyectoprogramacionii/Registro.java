@@ -54,7 +54,7 @@ public class Registro extends javax.swing.JFrame {
         btnCrearCuenta = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnOlvidarContraseña = new javax.swing.JButton();
-        txtPassword = new javax.swing.JTextField();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Matricula");
@@ -160,7 +160,7 @@ public class Registro extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Usuario o Contraseña incorrecto", "Error de Captura",
                     JOptionPane.ERROR_MESSAGE);
         }
-
+        this.dispose();
 
     }//GEN-LAST:event_btnIngresarActionPerformed
 
@@ -169,12 +169,14 @@ public class Registro extends javax.swing.JFrame {
         // TODO add your handling code here:
         CrearCuenta Cuenta = new CrearCuenta();
         Cuenta.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCrearCuentaActionPerformed
 
     private void btnOlvidarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOlvidarContraseñaActionPerformed
         // TODO add your handling code here:
         olvidarContraseña contraseñaOlvidada = new olvidarContraseña();
         contraseñaOlvidada.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnOlvidarContraseñaActionPerformed
 
     /**
@@ -219,7 +221,7 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtPassword;
+    private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUsuario;
     // End of variables declaration//GEN-END:variables
 }

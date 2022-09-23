@@ -87,7 +87,7 @@ return result.get("specialColumn")
     public boolean confirmarUsuario(MongoCollection<Document> collection, String usuario, String password) {
         String Usuario = txtUsuario.getText();
         String Password = txtPassword.getText();
-      /*  DBObject result = collection.findOne(new BasicDBObject("usuario", Usuario), new BasicDBObject("usuario", 1));
+        /*  DBObject result = collection.findOne(new BasicDBObject("usuario", Usuario), new BasicDBObject("usuario", 1));
         return result.get("contraseña"); */
 
         String contraseña = new String(Password);
@@ -350,7 +350,7 @@ return result.get("specialColumn")
         this.insertarDatos();
         Registro registro = new Registro();
         registro.setVisible(true);
-
+        this.dispose();
 
     }//GEN-LAST:event_btnCrearUsuarioActionPerformed
 
@@ -358,6 +358,7 @@ return result.get("specialColumn")
         // TODO add your handling code here:
         Registro registro = new Registro();
         registro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

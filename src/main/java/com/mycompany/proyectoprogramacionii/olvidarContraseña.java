@@ -26,7 +26,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
 
     MongoCollection<Document> Usuarios;
 
-    private boolean NewPass(String usuario, String password) {
+    private boolean NewPass(String usuario, String password, String cPassword) {
 
         this.Usuarios = Main.connMongo.getDB().getCollection("registroUsuarios");
         Document result = this.Usuarios.find(new Document("usuario", usuario)).first();
@@ -38,7 +38,7 @@ public class olvidarContraseña extends javax.swing.JFrame {
         return false;
     }
 
-/*
+    /*
 public boolean actualizarDocuments(MongoCollection<Document> collection, Document data, String id) {
         try {
             Bson filter = eq("_id", new ObjectId(id));
@@ -49,9 +49,7 @@ public boolean actualizarDocuments(MongoCollection<Document> collection, Documen
             return false;
         }
     }
-*/
-
-
+     */
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -169,15 +167,17 @@ public boolean actualizarDocuments(MongoCollection<Document> collection, Documen
             JOptionPane.showMessageDialog(null, "Debe ingresar una Contraseña", "Error de Captura",
                     JOptionPane.ERROR_MESSAGE);
         }
+        if (newPassword.equals(conNewPassword)) {
+            if (this.NewPass(Usuario, newPassword, conNewPassword)) {
+                Menu menu = new Menu();
+                menu.setVisible(true);
+                this.dispose();
+            }
 
-        JOptionPane.showOptionDialog(new JFrame(), "Esta seguro de que quiere cambiar la contraseña?",
-                "Confirmacion de cambio de contraseña",
-                JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
-                new Object[]{"Si", "No"}, JOptionPane.YES_OPTION);
-        nuevaContraseña = txtNewPass.getText();
-        CrearCuenta cuenta = new CrearCuenta();
-        cuenta.cambiarContraseña(nuevaContraseña);
-
+        } else {
+            JOptionPane.showMessageDialog(null, "Contraseñas no coinciden", "Error de Captura",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
     }//GEN-LAST:event_btncambiarContraseñaActionPerformed
 
@@ -186,6 +186,7 @@ public boolean actualizarDocuments(MongoCollection<Document> collection, Documen
         // TODO add your handling code here:
         Registro registro = new Registro();
         registro.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**

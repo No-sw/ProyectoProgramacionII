@@ -358,12 +358,14 @@ public class registrarEstudiante extends javax.swing.JFrame {
         this.insertarDatos();
         Menu menu = new Menu();
         menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btncrearEstudianteActionPerformed
 
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
         // TODO add your handling code here:
         Menu menu = new Menu();
         menu.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     /**
